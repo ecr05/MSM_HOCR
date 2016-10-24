@@ -59,7 +59,7 @@ MSM_HOCR uses libraries with restricted licences (ELC and FastPD) for which we h
 Hiroshi Ishikawa 
 14/10/2016
 "
-FSL have entered into a licence agreement with the licencees of FastPD. F
+FSL have entered into a licence agreement with the licencees of FastPD. 
 
 When using please cite 
 
