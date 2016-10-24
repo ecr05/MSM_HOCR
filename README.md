@@ -15,6 +15,15 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
 USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+Files in this distribution:
+
+Binary folders for MacosX, Ubuntu, Centos. Within each folder:
+msm - the msmbinary
+msmapplywarp - binary for projecting deformation to new surfaces
+msmresample - binary for resampling featuremaps though the warp 
+estimate_metric_distortion - estimates areal distortion
+configMSMsulc - a registration config file optimised by the HCP for pre-alignment of the HCP parcellation
+
 Description:
 
 The MSM software series are cortical surface registration tools designed for flexible alignment of multiple different types of data on the cortical surface. MSM_HOCR represents an adaption to the 2014 Neuroimage version of the MSM software that allows improved regularisation through use of the Higher Order Clique Reduction libraries (HOCR and ELC) written by Hiroshi Ishikawa. These improvements have proved essential to achieve the alignments of areal features as described in the HCP's "A Multimodal parcellation of the Human Cerebral Cortex" Glasser, et al. Nature 2016. MSM uses discrete optimisation implemented using fastPD. FastPD and ELC are restricted licence libraries which we have gained permission to use as part of the MSM software (see below). For this reason, we are releasing only binaries at this time (for Ubuntu and Centos Linux, and MacOs). Source code will be released as part of the next FSL software library release. We supply an example config file for MSMsulc (MSMall parameters are on the way). Please contact if you have any problems 
