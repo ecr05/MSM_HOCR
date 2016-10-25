@@ -2,7 +2,7 @@
 Multimodal Surface Matching with Higher order Clique Reduction
 Version 1.00 (October 20th, 2016)
 
-Copyright 2016 Emma C Robinson. This software may only be used or distributed for non-commercial, research purposes. If you have any questions please contact emma.robinsom01@gmail.com
+Copyright 2016 Emma C Robinson. This software may only be used or distributed for non-commercial, research purposes. If you have any questions please contact emma.robinson05[at]imperial.ac.uk 
 
 THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
 INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
