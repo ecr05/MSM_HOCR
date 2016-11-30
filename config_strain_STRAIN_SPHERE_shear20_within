@@ -1,0 +1,15 @@
+--sigma_in=6,6,4,2
+--sigma_ref=6,6,4,2
+--lambda=0,0.0003,0.0003,0.0003
+--it=50,5,5,5
+--opt=AFFINE,DISCRETE,DISCRETE,DISCRETE
+--CPgrid=6,2,3,4
+--SGgrid=6,4,5,6
+--datagrid=5,5,5,6
+--regoption=3
+--regexp=2
+--dopt=HOCR
+--bulkmod=10
+--shearmod=20
+--triclique
+--rescaleL

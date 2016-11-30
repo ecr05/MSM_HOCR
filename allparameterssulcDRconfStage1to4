@@ -1,0 +1,15 @@
+--simval=3,2,2,2
+--sigma_in=6,6,3,1
+--sigma_ref=6,6,3,1
+--lambda=0,2,2.5,3.3
+--it=50,5,5,5
+--opt=AFFINE,DISCRETE,DISCRETE,DISCRETE
+--CPgrid=6,2,3,4
+--SGgrid=6,4,5,6
+--datagrid=6,5,5,6
+--regoption=2
+--dopt=HOCR
+--VN
+--rescaleL
+--triclique
+--anorm
