@@ -751,7 +751,13 @@ namespace NEWMESH {
     double I1st_new = (I1 - 1.0) / J;
     double Jmod = J;
     if (J < 1.0) Jmod = 1 / J;
-    double R = 0.5 * (I1st_new + sqrt(I1st_new * I1st_new - 4));//convert I1* to (major strain) / (minor strain)
+    double R;
+    if (I1st_new <= 2)
+    {
+        R = 1.0;
+    } else {
+        R = 0.5 * (I1st_new + sqrt(I1st_new * I1st_new - 4));//convert I1* to (major strain) / (minor strain)
+    }
     
     double k1 = 2.0, k2 = 2.0;//TODO: make these into config parameters
     
