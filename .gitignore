@@ -1,0 +1,13 @@
+*.o
+*.a
+*~
+depend.mk
+.DS_Store
+CVS
+/src/MSM/msm
+/src/MSM/estimate_metric_distortion
+/src/MSM/msm_metric_sim
+/src/MSM/msmapplywarp
+/src/MSM/msmresample
+/src/MSM/surfconvert
+/include
