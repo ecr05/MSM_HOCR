@@ -571,7 +571,7 @@ namespace NEWMESH {
     //// get normals //////////////////
     for (int index=0; index < ORIG.ntriangles(); index++){
       boost::shared_ptr<ColumnVector> strainstmp=boost::shared_ptr<ColumnVector>(new ColumnVector (2));
-      STRAINS(3,index+1)=calculate_triangular_strain(index,ORIG,FINAL,MU,KAPPA,strainstmp);
+      STRAINS(3,index+1)=calculate_triangular_strain(index,ORIG,FINAL,MU,KAPPA,false,strainstmp);
       STRAINS(1,index+1)=(*strainstmp)(1);       STRAINS(2,index+1)=(*strainstmp)(2); 
 
 
@@ -595,7 +595,7 @@ namespace NEWMESH {
     return STRAIN;
   }
 
-  double calculate_triangular_strain(const Triangle & ORIG_tr, const Triangle & FINAL_tr, const double & mu, const double &kappa, bool calc_emery,  const boost::shared_ptr<ColumnVector> & indexSTRAINS){
+  double calculate_triangular_strain(const Triangle & ORIG_tr, const Triangle & FINAL_tr, const double & mu, const double &kappa, bool calc_emery,  const boost::shared_ptr<ColumnVector> & indexSTRAINS, bool legacy_strain){
 
     Pt Normal_O,Normal_F;
     Tangent Tang;  
@@ -643,13 +643,13 @@ namespace NEWMESH {
 
   
    
-    W=triangle_strain(ORIG2D,FINAL2D,mu,kappa,indexSTRAINS,calc_emery);
+    W=triangle_strain(ORIG2D,FINAL2D,mu,kappa,indexSTRAINS,calc_emery,legacy_strain);
  
   
     return W;
   }
 
-  double calculate_triangular_strain(int index, const NEWMESH::newmesh & ORIG, const NEWMESH::newmesh & FINAL, const double & mu, const double &kappa, bool calc_emery,  const boost::shared_ptr<ColumnVector> & indexSTRAINS){
+  double calculate_triangular_strain(int index, const NEWMESH::newmesh & ORIG, const NEWMESH::newmesh & FINAL, const double & mu, const double &kappa, bool calc_emery,  const boost::shared_ptr<ColumnVector> & indexSTRAINS, bool legacy_strain){
 
     Pt Normal_O,Normal_F;
     Tangent Tang;  
@@ -694,7 +694,7 @@ namespace NEWMESH {
     FINAL2D=FINAL3D*TRANS2;
 
    
-    W=triangle_strain(ORIG2D,FINAL2D,mu,kappa,indexSTRAINS,calc_emery);
+    W=triangle_strain(ORIG2D,FINAL2D,mu,kappa,indexSTRAINS,calc_emery,legacy_strain);
  
     
     return W;
@@ -706,7 +706,7 @@ namespace NEWMESH {
 
 
 
-  double triangle_strain(const Matrix& AA, const Matrix & BB, const double &MU,const double &KAPPA, const boost::shared_ptr<ColumnVector> & strains, bool emery_strain){
+  double triangle_strain(const Matrix& AA, const Matrix & BB, const double &MU,const double &KAPPA, const boost::shared_ptr<ColumnVector> & strains, bool emery_strain, bool legacy_strain){
     double c0,c1,c2,c3,c4,c5;
     double c0c,c1c,c2c,c3c,c4c,c5c;
     double I1,I3,I1st,J,W;
@@ -745,14 +745,25 @@ namespace NEWMESH {
     F3D_2=F3D.t()*F3D;
     I1=F3D_2.Trace();
     I3=F3D_2.Determinant();
-    I1st = I1*std::pow(I3,(-1.0/3.0));
+    
     J = sqrt(I3);
+    I1st = I1*std::pow(I3,(-1.0/3.0));
+    double I1st_new = (I1 - 1.0) / J;
+    double Jmod = J;
+    if (J < 1.0) Jmod = 1 / J;
+    double R = 0.5 * (I1st_new + sqrt(I1st_new * I1st_new - 4));//convert I1* to (major strain) / (minor strain)
+    
+    double k1 = 2.0, k2 = 2.0;//TODO: make these into config parameters
     
     if(emery_strain==true){
-      W=0.5*MU*(I1-3-2*log(J))+0.5*KAPPA*log(J)*log(J);
-    }
-    else
+      //W=0.5*MU*(I1-3-2*log(J))+0.5*KAPPA*log(J)*log(J);
+      W=0.5*MU*((I1-1)/J-2)+0.5*KAPPA*log(J)*log(J);
+    } else if (legacy_strain) {
       W = 0.5*(MU*(I1st - 3) + KAPPA*(J - 1)*(J - 1));
+    } else {
+      double Rshared = pow(R, k1), Jshared = pow(J, k2);
+      W = 0.5*(MU*(Rshared + 1.0 / Rshared - 2) + KAPPA*(Jshared + 1.0 / Jshared - 2));
+    }
 
    
     //// calculating prinicipal strains (for testing)
