@@ -1,21 +1,20 @@
 # $id: Makefile,v 1.1.1.1 2013/10/08 14:06:18 emmar Exp $
 include ${FSLCONFDIR}/default.mk
 
-PROJNAME = MSM
+PROJNAME= MSM
 USRCXXFLAGS=-g
  
 
-USRINCFLAGS =-I${INC_NEWMAT} -I${INC_NEWRAN} -I${INC_ZLIB} -I${INC_CPROB} -I${INC_PROB}  -I${INC_GD}  -I${INC_GDC} -I${INC_PNG} -I${INC_BOOST} -I./include -I${HOME}/fsldev/include -I${HOME}/fsldev/extras/include
-USRLDFLAGS =-L${LIB_NEWMAT} -L${LIB_NEWRAN} -L${LIB_ZLIB}  -L${LIB_CPROB} -L${LIB_PROB} -L${LIB_GDC} -L${LIB_PNG} -L${LIB_GD}   -L. -L${HOME}/fsldev/lib  -L${HOME}/fsldev/extras/lib
+USRINCFLAGS=-I${INC_NEWMAT} -I${INC_NEWRAN} -I${INC_ZLIB} -I${INC_CPROB} -I${INC_PROB}  -I${INC_GD}  -I${INC_GDC} -I${INC_PNG} -I${INC_BOOST} -I./include -I${FSLDEVDIR}/include -I${FSLDEVDIR}/extras/include
+USRLDFLAGS=-L${LIB_NEWMAT} -L${LIB_NEWRAN} -L${LIB_ZLIB}  -L${LIB_CPROB} -L${LIB_PROB} -L${LIB_GDC} -L${LIB_PNG} -L${LIB_GD}   -L. -L${FSLDEVDIR}/lib  -L${FSLDEVDIR}/extras/lib
 LIBS= -lmeshreg -lfastpd -ldiscrete -lnewmeshclass -lfslsurface -lgiftiio -lmm  -lexpat  -lfslvtkio -lnewimage  -lmiscmaths -lmiscplot -lmiscpic -lfslio -lniftiio -lnewmat -lutils  -lbint -lnewran -lprob -lznz -lgdc -lgd -lpng  -lz
-all:msm  msmapplywarp  estimate_metric_distortion surfconvert msmresample msm_metric_sim 
 
 ifdef HOCR
-	USRCXXFLAGS:= -std=c++11  -DHAS_HOCR
+	USRCXXFLAGS+= -std=c++11  -DHAS_HOCR
 endif
 
 ifdef TBB
-	USRCXXFLAGS:= -DHAS_TBB
+	USRCXXFLAGS+= -DHAS_TBB
 	LIBS= -lmeshreg -lfastpd -ldiscrete -ltbb -lnewmeshclass -lfslsurface -lgiftiio -lmm  -lexpat  -lfslvtkio -lnewimage  -lmiscmaths -lmiscplot -lmiscpic -lfslio -lniftiio -lnewmat -lutils  -lbint -lnewran -lprob -lznz -lgdc -lgd -lpng  -lz
 
 endif
@@ -24,6 +23,7 @@ ifdef GROUP
 	all:= msm_group msm_metricmath msmresamplemesh  estimate_strains estimate_curvature msm_metric_average msm_makeicos intensity_normalise minimise_anat-to-sphere_distortions:
 endif
 
+all:msm  msmapplywarp  estimate_metric_distortion surfconvert msmresample msm_metric_sim 
 
 libmsm.a: ${MSMLIBOBJS}
 	${AR} -r libmsm.a ${MSMLIBOBJS}
