@@ -103,6 +103,9 @@ namespace MESHREG {
   Option<bool>  emorystrain(string("--emery"), false,
 		      string("use emory strain "),
 			    false,no_argument,false);
+  Option<bool>  legacystrain(string("--legacy_strain"), false,
+		      string("use legacy strain equation"),
+			    false,no_argument);
 #endif
   
   Option<float>  expscaling(string("--scaleexp"), 1,
@@ -198,6 +201,7 @@ namespace MESHREG {
     options.add(bulk);
     options.add(grouplambda);
     options.add(emorystrain);
+    options.add(legacystrain);
 #endif
     options.add(expscaling);
     options.add(regulariserexp); 
@@ -308,6 +312,7 @@ namespace MESHREG {
   _shearmod=shear.value();
   _bulkmod=bulk.value();
   _useEstrain=emorystrain.value();
+  _legacyStrain=legacystrain.value();
   
 #else
   _regmode=1;
@@ -390,6 +395,7 @@ namespace MESHREG {
     PARAMETERS.insert(parameterPair("gradsampling",_affinegradsampling));
     PARAMETERS.insert(parameterPair("numthreads",_numthreads));
     PARAMETERS.insert(parameterPair("emerystrain",_useEstrain));
+    PARAMETERS.insert(parameterPair("legacystrain",_legacyStrain));
 
     
   }

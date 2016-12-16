@@ -61,11 +61,11 @@ namespace NEWMESH {
   newmesh calculate_strains(double, const NEWMESH::newmesh &,const NEWMESH::newmesh &, const boost::shared_ptr<Matrix>&,const boost::shared_ptr<RELATIONS>REL=boost::shared_ptr<RELATIONS >());
   newmesh calculate_triangular_strains(const NEWMESH::newmesh &, const NEWMESH::newmesh &, double MU=0.1, double KAPPA=10.0);
 
-  double calculate_triangular_strain(const Triangle &,const Triangle &,const double &,const double &,bool calc_emery=false, const boost::shared_ptr<ColumnVector> & indexSTRAINS=boost::shared_ptr<ColumnVector> ());
+  double calculate_triangular_strain(const Triangle &,const Triangle &,const double &,const double &,bool calc_emery=false, const boost::shared_ptr<ColumnVector> & indexSTRAINS=boost::shared_ptr<ColumnVector> (), bool legacy_strain = false);
 
-  double calculate_triangular_strain(int, const NEWMESH::newmesh &, const NEWMESH::newmesh &,const double &,const double &,bool calc_emery=false, const boost::shared_ptr<ColumnVector> & indexSTRAINS=boost::shared_ptr<ColumnVector> ());
+  double calculate_triangular_strain(int, const NEWMESH::newmesh &, const NEWMESH::newmesh &,const double &,const double &,bool calc_emery=false, const boost::shared_ptr<ColumnVector> & indexSTRAINS=boost::shared_ptr<ColumnVector> (), bool legacy_strain = false);
 
-  double triangle_strain(const Matrix&, const Matrix &,  const double &,const double &, const boost::shared_ptr<ColumnVector> & strains=boost::shared_ptr<ColumnVector> (), bool emergy_strain=false);
+  double triangle_strain(const Matrix&, const Matrix &,  const double &,const double &, const boost::shared_ptr<ColumnVector> & strains=boost::shared_ptr<ColumnVector> (), bool emery_strain=false, bool legacy_strain = false);
 
   void mean_curvature(double, NEWMESH::newmesh &,const boost::shared_ptr<RELATIONS>&);
   ColumnVector eig2(const double &, const double &, const double &);
