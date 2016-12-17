@@ -11,7 +11,9 @@ CVS
 /src/MSM/msmresample
 /src/MSM/surfconvert
 /include
-/extras
+/extras/src
+/extras/include/FastPD
+!/extras/include/ELC
 /lib
 /include
 /refdoc
