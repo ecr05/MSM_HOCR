@@ -116,6 +116,7 @@ namespace MESHREG {
     bool _useEstrain;	
     bool _legacyStrain;
     bool _piecewiseStrain;
+    double _k_exp;
     float _potts;
     int _resolutionlevels;  /// default 1 
     int _regmode; //regulariser option
@@ -166,6 +167,7 @@ namespace MESHREG {
       _useEstrain=false;
       _legacyStrain=false;
       _piecewiseStrain=false;
+      _k_exp = 2.0;
       FEAT=boost::shared_ptr<featurespace>(new featurespace());
     };
     

@@ -109,6 +109,9 @@ namespace MESHREG {
   Option<bool>  piecewisestrain(string("--piecewise_strain"), false,
 		      string("use piecewise strain equation"),
 			    false,no_argument);
+  Option<float>  kexponent(string("--k_exponent"), 2,
+		      string("exponent inside strain equation (default 2)"),
+		      false,requires_argument,false);
 #endif
   
   Option<float>  expscaling(string("--scaleexp"), 1,
@@ -206,6 +209,7 @@ namespace MESHREG {
     options.add(emorystrain);
     options.add(legacystrain);
     options.add(piecewisestrain);
+    options.add(kexponent);
 #endif
     options.add(expscaling);
     options.add(regulariserexp); 
@@ -318,6 +322,7 @@ namespace MESHREG {
   _useEstrain=emorystrain.value();
   _legacyStrain=legacystrain.value();
   _piecewiseStrain=piecewisestrain.value();
+  _k_exp=kexponent.value();
   
 #else
   _regmode=1;
@@ -402,6 +407,7 @@ namespace MESHREG {
     PARAMETERS.insert(parameterPair("emerystrain",_useEstrain));
     PARAMETERS.insert(parameterPair("legacystrain",_legacyStrain));
     PARAMETERS.insert(parameterPair("piecewisestrain",_piecewiseStrain));
+    PARAMETERS.insert(parameterPair("kexponent",_k_exp));
 
     
   }
