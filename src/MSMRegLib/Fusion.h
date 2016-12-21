@@ -50,7 +50,7 @@ struct QuartetData	{ REAL buffer[16]; };
 
 namespace ELCReduce {
   template<typename T> class PBF;
-};
+}
 
 template<typename T> class QPBO;
 

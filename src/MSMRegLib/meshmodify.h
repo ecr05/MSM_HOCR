@@ -115,6 +115,7 @@ namespace MESHREG {
     bool _rescale_labels;
     bool _useEstrain;	
     bool _legacyStrain;
+    bool _piecewiseStrain;
     float _potts;
     int _resolutionlevels;  /// default 1 
     int _regmode; //regulariser option
@@ -164,6 +165,7 @@ namespace MESHREG {
       _numthreads=1;
       _useEstrain=false;
       _legacyStrain=false;
+      _piecewiseStrain=false;
       FEAT=boost::shared_ptr<featurespace>(new featurespace());
     };
     
