@@ -419,6 +419,7 @@ namespace DISCRETEOPT{
     bool _useemery;
     bool _legacy_strain;
     bool _piecewise_strain;
+    float _k_exp;
     vector<vector<double> > _sourcedata;
     vector<vector<double> > _targetdata;
     vector<vector<double> > _weights;
