@@ -106,6 +106,9 @@ namespace MESHREG {
   Option<bool>  legacystrain(string("--legacy_strain"), false,
 		      string("use legacy strain equation"),
 			    false,no_argument);
+  Option<bool>  piecewisestrain(string("--piecewise_strain"), false,
+		      string("use piecewise strain equation"),
+			    false,no_argument);
 #endif
   
   Option<float>  expscaling(string("--scaleexp"), 1,
@@ -202,6 +205,7 @@ namespace MESHREG {
     options.add(grouplambda);
     options.add(emorystrain);
     options.add(legacystrain);
+    options.add(piecewisestrain);
 #endif
     options.add(expscaling);
     options.add(regulariserexp); 
@@ -313,6 +317,7 @@ namespace MESHREG {
   _bulkmod=bulk.value();
   _useEstrain=emorystrain.value();
   _legacyStrain=legacystrain.value();
+  _piecewiseStrain=piecewisestrain.value();
   
 #else
   _regmode=1;
@@ -396,6 +401,7 @@ namespace MESHREG {
     PARAMETERS.insert(parameterPair("numthreads",_numthreads));
     PARAMETERS.insert(parameterPair("emerystrain",_useEstrain));
     PARAMETERS.insert(parameterPair("legacystrain",_legacyStrain));
+    PARAMETERS.insert(parameterPair("piecewisestrain",_piecewiseStrain));
 
     
   }

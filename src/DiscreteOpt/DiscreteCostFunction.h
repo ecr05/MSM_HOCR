@@ -295,12 +295,14 @@ namespace DISCRETEOPT{
     void set_initial_angles(const vector<vector<double> >  angles){
      
       double meanang=0;
-      for (int i=0;i< angles.size();i++){
-	for (int j=0;j<angles[i].size();j++){
-	  meanang+=angles[i][j];
-	}
+      for (size_t i = 0; i < angles.size(); i++)
+      {
+    	for (size_t j = 0; j < angles[i].size(); j++)
+    	{
+	      meanang+=angles[i][j];
+    	}
       }
-      _MEANANGLE=meanang/(3*angles.size());
+      _MEANANGLE=meanang/(3.0*angles.size());
     }
 
     virtual void set_matlab_path(string s){_matlabpath=s;}
@@ -416,6 +418,7 @@ namespace DISCRETEOPT{
 
     bool _useemery;
     bool _legacy_strain;
+    bool _piecewise_strain;
     vector<vector<double> > _sourcedata;
     vector<vector<double> > _targetdata;
     vector<vector<double> > _weights;
