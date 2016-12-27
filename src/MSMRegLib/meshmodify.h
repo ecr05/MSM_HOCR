@@ -116,7 +116,7 @@ namespace MESHREG {
     bool _useEstrain;	
     bool _legacyStrain;
     bool _piecewiseStrain;
-    double _k_exp;
+    float _k_exp;
     float _potts;
     int _resolutionlevels;  /// default 1 
     int _regmode; //regulariser option
