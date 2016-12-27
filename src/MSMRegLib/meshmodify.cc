@@ -92,10 +92,10 @@ namespace MESHREG {
 				   false, no_argument);				   
   Option<float>  shear(string("--shearmod"), 0.1,
 		       string("shear modulus (default 0.1); for use with --regoptions 3 "),
-			 false,requires_argument,false);
+			 false,requires_argument);
   Option<float>  bulk(string("--bulkmod"), 10,
 		      string("bulk mod (default 10); for use with --regoptions 3 "),
-		      false,requires_argument,false);
+		      false,requires_argument);
   
   Option<float>  grouplambda(string("--glambda_pairs"), 1,
 			     string("scaling for pairwise term in greoup alignment"),
@@ -111,7 +111,7 @@ namespace MESHREG {
 			    false,no_argument);
   Option<float>  kexponent(string("--k_exponent"), 2,
 		      string("exponent inside strain equation (default 2)"),
-		      false,requires_argument,false);
+		      false, requires_argument);
 #endif
   
   Option<float>  expscaling(string("--scaleexp"), 1,
