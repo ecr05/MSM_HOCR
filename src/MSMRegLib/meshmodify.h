@@ -113,9 +113,6 @@ namespace MESHREG {
     bool _quartet;
     bool _set_group_lambda;
     bool _rescale_labels;
-    bool _useEstrain;	
-    bool _legacyStrain;
-    bool _piecewiseStrain;
     float _k_exp;
     float _potts;
     int _resolutionlevels;  /// default 1 
@@ -161,12 +158,9 @@ namespace MESHREG {
       _discreteOPT="FastPD";
       _L1path="";
       _cprange=1;
-      _bulkmod=10;
-      _shearmod=2.5;
+      _bulkmod=1.6;
+      _shearmod=0.4;
       _numthreads=1;
-      _useEstrain=false;
-      _legacyStrain=false;
-      _piecewiseStrain=false;
       _k_exp = 2.0;
       FEAT=boost::shared_ptr<featurespace>(new featurespace());
     };
