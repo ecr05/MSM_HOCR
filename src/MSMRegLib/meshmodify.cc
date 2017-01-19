@@ -90,25 +90,16 @@ namespace MESHREG {
   Option<bool>  tricliquelikeihood(string("--triclique"), false,
 				   string("estimate similarity for triangular patches (rather than circular)"),
 				   false, no_argument);				   
-  Option<float>  shear(string("--shearmod"), 0.1,
-		       string("shear modulus (default 0.1); for use with --regoptions 3 "),
+  Option<float>  shear(string("--shearmod"), 0.4,
+		       string("shear modulus (default 0.4); for use with --regoptions 3 "),
 			 false,requires_argument);
-  Option<float>  bulk(string("--bulkmod"), 10,
-		      string("bulk mod (default 10); for use with --regoptions 3 "),
+  Option<float>  bulk(string("--bulkmod"), 1.6,
+		      string("bulk mod (default 1.6); for use with --regoptions 3 "),
 		      false,requires_argument);
   
   Option<float>  grouplambda(string("--glambda_pairs"), 1,
 			     string("scaling for pairwise term in greoup alignment"),
 			     false,requires_argument,false);
-  Option<bool>  emorystrain(string("--emery"), false,
-		      string("use emory strain "),
-			    false,no_argument,false);
-  Option<bool>  legacystrain(string("--legacy_strain"), false,
-		      string("use legacy strain equation"),
-			    false,no_argument);
-  Option<bool>  piecewisestrain(string("--piecewise_strain"), false,
-		      string("use piecewise strain equation"),
-			    false,no_argument);
   Option<float>  kexponent(string("--k_exponent"), 2,
 		      string("exponent inside strain equation (default 2)"),
 		      false, requires_argument);
@@ -206,9 +197,6 @@ namespace MESHREG {
     options.add(shear);
     options.add(bulk);
     options.add(grouplambda);
-    options.add(emorystrain);
-    options.add(legacystrain);
-    options.add(piecewisestrain);
     options.add(kexponent);
 #endif
     options.add(expscaling);
@@ -319,9 +307,6 @@ namespace MESHREG {
   _tricliquelikeihood=tricliquelikeihood.value();
   _shearmod=shear.value();
   _bulkmod=bulk.value();
-  _useEstrain=emorystrain.value();
-  _legacyStrain=legacystrain.value();
-  _piecewiseStrain=piecewisestrain.value();
   _k_exp=kexponent.value();
   
 #else
@@ -404,9 +389,6 @@ namespace MESHREG {
     PARAMETERS.insert(parameterPair("stepsize",_affinestepsize));
     PARAMETERS.insert(parameterPair("gradsampling",_affinegradsampling));
     PARAMETERS.insert(parameterPair("numthreads",_numthreads));
-    PARAMETERS.insert(parameterPair("emerystrain",_useEstrain));
-    PARAMETERS.insert(parameterPair("legacystrain",_legacyStrain));
-    PARAMETERS.insert(parameterPair("piecewisestrain",_piecewiseStrain));
     PARAMETERS.insert(parameterPair("kexponent",_k_exp));
 
     

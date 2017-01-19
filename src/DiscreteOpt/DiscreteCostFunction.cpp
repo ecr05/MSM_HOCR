@@ -365,11 +365,10 @@ namespace DISCRETEOPT{
   NonLinearSRegDiscreteCostFunction::NonLinearSRegDiscreteCostFunction()
   {
     _expscaling = 1;
-    _useemery = false; _legacy_strain = false; _piecewise_strain = false;
     _k_exp = 2.0;
     _maxdist=4;  _rexp=2;
      _kNN=5; _rmode=1;
-     _mu=0.1; _kappa=10; 
+     _mu=0.4; _kappa=1.6;
   }    
 
   void NonLinearSRegDiscreteCostFunction::initialize(int numNodes, int numLabels, int numPairs, int numTriplets,int numQuartets)
@@ -387,9 +386,6 @@ namespace DISCRETEOPT{
     it=ALLPARAMS.find("scaling");_expscaling=boost::get<float>(it->second);
     it=ALLPARAMS.find("shearmodulus");_mu=boost::get<float>(it->second);
     it=ALLPARAMS.find("bulkmodulus");_kappa=boost::get<float>(it->second);
-    it=ALLPARAMS.find("emerystrain");_useemery=boost::get<bool>(it->second);
-    it=ALLPARAMS.find("legacystrain");_legacy_strain=boost::get<bool>(it->second);
-    it=ALLPARAMS.find("piecewisestrain");_piecewise_strain=boost::get<bool>(it->second);
     it=ALLPARAMS.find("kexponent");_k_exp=boost::get<float>(it->second);
 
     it=ALLPARAMS.find("kNN");_kNN=boost::get<int>(it->second);
@@ -527,7 +523,7 @@ namespace DISCRETEOPT{
 	  TRI_ORIG.set(o_v0,o_v1,o_v2,0);
 	  
 	  
-	  cost=calculate_triangular_strain(TRI_ORIG, TRI, _mu, _kappa, _useemery, boost::shared_ptr<ColumnVector>(), _legacy_strain, _piecewise_strain, _k_exp);
+	  cost=calculate_triangular_strain(TRI_ORIG, TRI, _mu, _kappa, boost::shared_ptr<ColumnVector>(), _k_exp);
 	  // if(write) cout << triplet << " " << labelA <<  " " << labelB << " " <<  labelC << " " << cost << " (v0- v[id[0]]).norm() " << (v0- v[id[0]]).norm() << endl;
 	 
 
@@ -590,7 +586,7 @@ namespace DISCRETEOPT{
 	    TRIorig = _aSOURCE.get_triangle(NEARESTFACES[triplet][n]); 
 	    TRItrans=deform_anatomy(triplet,n,v,moved2,transformed_points);
 	  
-	    cost+=calculate_triangular_strain(TRIorig, TRItrans, _mu, _kappa, _useemery, boost::shared_ptr<ColumnVector>(), _legacy_strain, _piecewise_strain, _k_exp);
+	    cost+=calculate_triangular_strain(TRIorig, TRItrans, _mu, _kappa, boost::shared_ptr<ColumnVector>(), _k_exp);
 	  
 	  
 	  }
@@ -1287,7 +1283,7 @@ namespace DISCRETEOPT{
     _SPHERE.set_coord(id[2],v[id[2]]);
     
    
-    W=calculate_triangular_strain(triplet,_ANAT,_SPHERE,_mu,_kappa,false,strains);
+    W=calculate_triangular_strain(triplet,_ANAT,_SPHERE,_mu,_kappa,strains);
     W=MISCMATHS::pow(W,_rexp);
 
 
