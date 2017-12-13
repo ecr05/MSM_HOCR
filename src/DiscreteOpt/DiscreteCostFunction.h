@@ -57,17 +57,17 @@ namespace DISCRETEOPT{
      * Returns the unary costs look-up table.
      */
     double* getUnaryCosts() { return unarycosts; }
-    
+
     /**
      * Returns the pairwise costs look-up table.
      */
     double* getPairwiseCosts() { return paircosts; }
-    
+
     /**
      * Returns the triplet costs look-up table.
      */
     //double* getTripletCosts() { return tripletcosts; }
-    
+
     /**
      * Returns the triplet costs look-up table.
      */
@@ -77,7 +77,7 @@ namespace DISCRETEOPT{
      * Computes the unary costs look-up table.
      */
     virtual void computeUnaryCosts(){};
-    
+
     /**
      * Computes the unary potential for a the given node
      */
@@ -87,27 +87,27 @@ namespace DISCRETEOPT{
      * Computes the pairwise costs look-up table.
      */
     virtual void computePairwiseCosts(const int *pairs){};
-    
+
     /**
      * Computes the pairwise potential for a the given pair and labels.
      */
     virtual double computePairwiseCost(int pair, int labelA, int labelB){ return 0; };
-    
+
     /**
      * Initializes the pair weights with given weights. If no weights are provided, all are set to one.
      */
     virtual void initPairWeights(const double *weights = 0);
-	
+
     /**
      * Computes the triplet costs look-up table.
      */
     // virtual void computeTripletCosts() {};
-    
+
     /**
      * Computes the triplet potential for a the given triplet and labels.
      */
     virtual double computeTripletCost(int triplet, int labelA, int labelB, int labelC) { return 0; }
-    
+
     /**
      * Initializes the triplet weights with given weights. If no weights are provided, all are set to one.
      */
@@ -118,28 +118,28 @@ namespace DISCRETEOPT{
      * Computes the quartet costs look-up table.
      */
     // virtual void computeQuartetCosts() {};
-    
+
     /**
      * Computes the quartet potential for a the given triplet and labels.
      */
     virtual double computeQuartetCost(int quartet, int labelA, int labelB, int labelC, int labelD) { return 0; }
-    
-     
+
+
     /**
      * Evaluates the total cost for the zero labeling.
      */
     double evaluateTotalCostSumZeroLabeling();
-    
+
     /**
      * Evaluates the total cost for the given labeling.
      */
     virtual double evaluateTotalCostSum(const int *labeling, const int *pairs, const int *triplets = 0,const int *quartets = 0);
-    
+
     /**
      * Evaluates the sum of unary costs for a given labeling.
      */
     double evaluateUnaryCostSum(const int *labeling);
-    
+
     /**
      * Evaluates the sum of pairwise costs for a given labeling.
      */
@@ -149,24 +149,24 @@ namespace DISCRETEOPT{
      * Evaluates the sum of triplet costs for a given labeling.
      */
     double evaluateTripletCostSum(const int *labeling, const int *triplets);
-    
+
     /**
      * Evaluates the sum of quartet costs for a given labeling.
      */
     double evaluateQuartetCostSum(const int *labeling, const int *quartets);
-    
+
     /**
      * Enables the memory for the pairwise potentials computation.
      */
     // void enablePairwiseMemory();
-    
+
     /**
      * Enables the memory for the triplet potentials computatio
      */
     // void enableTripletMemory();
-    
-    virtual void set_parameters(myparam & )=0; 
-    
+
+    virtual void set_parameters(myparam & )=0;
+
     virtual void report(){};
 
   protected:
@@ -178,21 +178,21 @@ namespace DISCRETEOPT{
      * \param numTriplets Number of triplets.
      */
     void initialize(int numNodes, int numLabels, int numPairs, int numTriplets = 0,int numQuartets = 0);
-    
+
     int				m_num_nodes;			///< Number of nodes.
     int				m_num_labels;			///< Number of labels.
     int				m_num_pairs;			///< Number of pairs.
     int				m_num_triplets;			///< Number of triplets.
     int				m_num_quartets;			///< Number of quartets.
 
-    
+
     double			*unarycosts;			///< Unary potentials look-up table.
     double			*paircosts;				///< Pairwise potentials look-up table.
     //  double			*tripletcosts;			///< Triplet potentials look-up table.
     //  double			*quartetcosts;			///< Quartet potentials look-up table.
 
     ///(NOT USED!!)
-    double 			*pairweights;			///< Weightings for the pairwise potentials. 
+    double 			*pairweights;			///< Weightings for the pairwise potentials.
     //double 			*tripletweights;		///< Weightings for the triplet potentials.
     //
 
@@ -200,7 +200,7 @@ namespace DISCRETEOPT{
     int *_triplets;
     int *_quartets;
     int *labels;							///< Labeling array.
-    
+
     float _reglambda;  // scaling parameter for regulariser
 
     bool _debug;
@@ -221,21 +221,21 @@ namespace DISCRETEOPT{
   public:
     DummyCostFunction(){m_num_labels=2;};
 
-    void setUnaryCost(int node, double cost0, double cost1){ 
+    void setUnaryCost(int node, double cost0, double cost1){
 
       unaryenergies.insert(pair<int, vector<double> >(node, vector<double>()));
       unaryenergies[node].push_back(cost0);
       unaryenergies[node].push_back(cost1);
     }
 
-    void setPairwiseCost(int ind, double E00, double E01, double E10, double E11){ 
+    void setPairwiseCost(int ind, double E00, double E01, double E10, double E11){
       pairenergies.insert(pair<int, vector<double> >(ind, vector<double>()));
       pairenergies[ind].push_back(E00);
       pairenergies[ind].push_back(E01);
       pairenergies[ind].push_back(E01);
       pairenergies[ind].push_back(E11);
     }
-    
+
     double computePairwiseCost(int pair, int labelA, int labelB){
       double cost;
       if(labelA==0 && labelB==0)
@@ -244,7 +244,7 @@ namespace DISCRETEOPT{
 	cost=pairenergies[pair][1];
       else if  (labelA==1 && labelB==0)
 	cost=pairenergies[pair][2];
-      else 
+      else
 	cost=pairenergies[pair][3];
       // cout << pair << " " << labelA << " " << labelB << " computePairwiseCost " << cost << endl;
       return cost;
@@ -261,39 +261,41 @@ namespace DISCRETEOPT{
       }
     }
 
-    void reset(){unaryenergies.clear();  pairenergies.clear();   
-      // if (unarycosts){ delete [] unarycosts; } 
+    void reset(){unaryenergies.clear();  pairenergies.clear();
+      // if (unarycosts){ delete [] unarycosts; }
     }
     void set_parameters(myparam & ){};
   protected:
     map<int, vector<double> > unaryenergies; /// maps of nodes  xlabels x vals
     map<int,vector<double> > pairenergies;
   };
-  
+
   class SRegDiscreteCostFunction: public DiscreteCostFunction
   {
-    
+
   public:
     //
     // Constructor.
     //
     SRegDiscreteCostFunction();
-   
+
     ///////////////////// VARIABLE ASSIGNMENT //////////////////////////
     // data input and reference mesh, plus low resolution control point grid
-    virtual void set_meshes(const NEWMESH::newmesh & target,const NEWMESH::newmesh & source, const NEWMESH::newmesh & GRID, int num=1){_TARGET=target; _SOURCE=source; _ORIG=source;  _CPgrid=GRID; _oCPgrid=GRID;} 
-  
+    virtual void set_meshes(const NEWMESH::newmesh & target,const NEWMESH::newmesh & source, const NEWMESH::newmesh & GRID, int num=1){_TARGET=target; _SOURCE=source; _ORIG=source;  _CPgrid=GRID; _oCPgrid=GRID;}
+    void set_meshes(const NEWMESH::newmesh & target,const NEWMESH::newmesh & source){_TARGET=target; _SOURCE=source;};
+
     void set_anatomical(const NEWMESH::newmesh &targetS,const NEWMESH::newmesh &targetA,const NEWMESH::newmesh & sourceS,const NEWMESH::newmesh & sourceA){_TARGEThi=targetS; _aTARGET=targetA;_aICO=sourceS, _aSOURCE=sourceA;}
     void set_anatomical_neighbourhood(const vector<map<int,double> > & weights, const vector<vector<int> > neighbourhood){_ANATbaryweights=weights; NEARESTFACES=neighbourhood; }
+
     ///// holds data for source and target mesh, used for look up during similarity estimation
-   
+
     newmesh project_anatomical();
     void set_featurespace(const boost::shared_ptr<featurespace> &features, bool _concatenate=false){FEAT=features; _concat=_concatenate;}
 
     void initialize_regulariser();
 
     void set_initial_angles(const vector<vector<double> >  angles){
-     
+
       double meanang=0;
       for (size_t i = 0; i < angles.size(); i++)
       {
@@ -306,20 +308,21 @@ namespace DISCRETEOPT{
     }
 
     virtual void set_matlab_path(string s){_matlabpath=s;}
-    /// 
+    ///
     void set_dataaffintyweighting(const Matrix &HRWeight){_HIGHREScfweight=HRWeight;}
+
     //// holds neighbourhood information
-    virtual void set_relations(const boost::shared_ptr<RELATIONS> &CONTROL,const boost::shared_ptr<RELATIONS> &TARG){ _controlrel=CONTROL; _targetrel=TARG;  
+    virtual void set_relations(const boost::shared_ptr<RELATIONS> &CONTROL,const boost::shared_ptr<RELATIONS> &TARG){ _controlrel=CONTROL; _targetrel=TARG;
  _sourcerel=_controlrel->invert_relations(_CPgrid,_SOURCE);  }
-   
-    void set_parameters(myparam & ); 
+
+    void set_parameters(myparam & );
     //MAXSEP is control grid vertex spacings
     virtual void set_spacings(const ColumnVector &spacings, const double MAX, int num=0){MAXSEP=spacings;MVDmax=MAX;}
-   
-    void debug(){_debug=true;} // for debuging 
+
+    void debug(){_debug=true;} // for debuging
     /// label list changes between iterations for spherical optimisation (barycentres and vertices of regular sampling grid)
-    void set_labels(const vector<Pt> labellist, const vector<Matrix> ROT=vector<Matrix>()){_labels=labellist;  ROTATIONS= boost::shared_ptr<vector<Matrix> >(new vector<Matrix> (ROT));  } // ROTATION MATRIX MAY ONLY BE REQUIRED FOR NON LINEAR FRAMEWORK 
-   
+    void set_labels(const vector<Pt> labellist, const vector<Matrix> ROT=vector<Matrix>()){_labels=labellist;  ROTATIONS= boost::shared_ptr<vector<Matrix> >(new vector<Matrix> (ROT));  } // ROTATION MATRIX MAY ONLY BE REQUIRED FOR NON LINEAR FRAMEWORK
+
     inline void set_iter(int iter) {_iter=iter;}
     virtual void reset_source(const NEWMESH::newmesh & source, int num=0){_SOURCE=source; }
 
@@ -336,7 +339,7 @@ namespace DISCRETEOPT{
       else return false;
 
     }
-    
+
     bool within_controlpt_range(const int &CPindex, const int &sourceindex, double & dist){
       Pt CP=_CPgrid.get_coord(CPindex);
       dist= 2*RAD*asin((CP-_SOURCE.get_coord(sourceindex)).norm()/(2*RAD));
@@ -345,9 +348,9 @@ namespace DISCRETEOPT{
 
     }
     virtual void initialize(int numNodes,int numLabels, int numPairs, int numTriplets = 0, int numQuartets = 0);
-   
+
     virtual void resample_target_data(const Pt &, const Pt &, const Pt &, const Pt &, const int &, const int &, const int &, int &){};
-   
+
     virtual void resample_weights(){};
     virtual void get_source_data(){};
     virtual void reset_target_data(int){};
@@ -360,29 +363,29 @@ namespace DISCRETEOPT{
     //////////////////////// MESHES //////////////////////
     NEWMESH::newmesh _TARGET; // TARGET MESH
     NEWMESH::newmesh _TARGEThi; // TARGET MESH
-    NEWMESH::newmesh _SOURCE; // SOURCE MESH   
+    NEWMESH::newmesh _SOURCE; // SOURCE MESH
     NEWMESH::newmesh _aTARGET; // ANATOMICAL TARGET MESH
 
     NEWMESH::newmesh _aSOURCE; // ANATOMICAL SOURCE MESH
     NEWMESH::newmesh _aICO; // ANATOMICAL SOURCE MESH
 
-    NEWMESH::newmesh _aSOURCEtrans; // ANATOMICAL SOURCE MESH 
+    NEWMESH::newmesh _aSOURCEtrans; // ANATOMICAL SOURCE MESH
 
- 
+
     NEWMESH::newmesh _ORIG; // NON DEFORMED SOURCE
-    NEWMESH::newmesh _oCPgrid; ///// NON DEFORMED CP GRID 
+    NEWMESH::newmesh _oCPgrid; ///// NON DEFORMED CP GRID
     NEWMESH::newmesh _CPgrid; ///// CONTRO
 
-    //////////////// CF WEIGHTINGS ////////////////////////////    
+    //////////////// CF WEIGHTINGS ////////////////////////////
     Matrix _HIGHREScfweight; /// source mesh cfweight
- 
+
     ColumnVector MAXSEP;
 
     /////////////////////// NEIGHBOURHOOD INFO ////////////////////
     boost::shared_ptr<RELATIONS> _controlrel; // hold control grid neighbours of each source vertex
     boost::shared_ptr<RELATIONS> _targetrel; // hold target grid neighbours of each source vertex
     RELATIONS _sourcerel; // hold source grid neighbours of each CP(!!) vertex/triangle
-  
+
     RELATIONS _anatrel;
 
     vector<vector<int> > _sourceinrange;
@@ -390,7 +393,7 @@ namespace DISCRETEOPT{
     //////////////////////// FEATURE SET //////////////////
     boost::shared_ptr<featurespace> FEAT; /// holds data
     sparsesimkernel<double> sim; // similarity object
-  
+
     /////////////////// LABELLING PARAMETERS////////
     vector<Pt> _labels;
     boost::shared_ptr<vector<Matrix> > ROTATIONS; // rotates label set onto each control point
@@ -409,7 +412,7 @@ namespace DISCRETEOPT{
     float _sigma;
 
     ///////// USER DEFINED PARAMETERS /////////
-    int _simmeasure; 
+    int _simmeasure;
     int _RES;
     int _aRES;
     int  _rmode;
@@ -421,34 +424,34 @@ namespace DISCRETEOPT{
     vector<vector<double> > _targetdata;
     vector<vector<double> > _weights;
 
-    vector<map<int,double> >  _ANATbaryweights;  
+    vector<map<int,double> >  _ANATbaryweights;
     resampler R;
-    double MAXstrain; 
+    double MAXstrain;
     double strain95;
   };
-  
+
 
   /*
-      class AffineSRegDiscreteCostFunction: public SRegDiscreteCostFunction 
+      class AffineSRegDiscreteCostFunction: public SRegDiscreteCostFunction
       {
       public:
       //
       // Constructor.
       //
       AffineDiscreteCostFunction();
-      
+
       //
       // Computes the unary costs look-up table.
-	
+
       void computeUnaryCosts() {};
-      
+
       //
       // Computes the pairwise costs look-up table.
-      
+
       void computePairwiseCosts() {};
-      
+
       protected:
-      
+
       };
     */
   class NonLinearSRegDiscreteCostFunction: public SRegDiscreteCostFunction
@@ -478,11 +481,11 @@ namespace DISCRETEOPT{
     // Constructor.
     //
     NonLinearSRegDiscreteCostFunction();
-   
+
     virtual void initialize(int numNodes, int numLabels, int numPairs, int numTriplets = 0,int numQuartets = 0); // quartets not used yet so no code for them below
 
-    void set_parameters(myparam & ); 
- 
+    void set_parameters(myparam & );
+
     //// compute unary costs
     void computeUnaryCosts();
 
@@ -498,7 +501,7 @@ namespace DISCRETEOPT{
      * Computes the quartet costs look-up table.
      */
    // void computeQuartetCosts() {};
-    
+
     /**
      * Computes the quartet potential for a the given triplet and labels.
      */
@@ -506,7 +509,7 @@ namespace DISCRETEOPT{
 
     // for transforming anatomy
     Triangle deform_anatomy(const int&,const int&,map<int,Pt>  & ,map<int,bool> &, map<int,Pt>  &);
-    
+
 
     void resample_weights();
 
@@ -514,7 +517,7 @@ namespace DISCRETEOPT{
 
     void get_target_data(const int&,const Pt&,const Pt&,const Pt&);
 
-   
+
 
     virtual void get_data_index(const int & controlpoint, const int & sourcepoint, int & ind){}; // data is held in 2D vectors in each case, but for univariate case data is controlpointsxfeatures and for multivariate its sourcepointsxfeatures. This function determines the correct index for rows
   };
@@ -554,7 +557,7 @@ namespace DISCRETEOPT{
     void reset_target_data(int node){  for(unsigned int i=0;i<_sourceinrange[node-1].size();i++) { _targetdata[_sourceinrange[node-1][i]-1].clear();}} /// *****NOT THREAD SAFE ********
 
     virtual void resample_target_data(const Pt &, const Pt &, const Pt &, const Pt &, const int &, const int &, const int &, int &);
-    void get_data_index(const int & controlpoint, const int & sourcepoint, int & ind){if(sourcepoint > (int) _sourcedata.size()){cout << "vector index too high " << endl;exit(1);} 
+    void get_data_index(const int & controlpoint, const int & sourcepoint, int & ind){if(sourcepoint > (int) _sourcedata.size()){cout << "vector index too high " << endl;exit(1);}
       ind=sourcepoint;}
 
   };
@@ -567,7 +570,7 @@ namespace DISCRETEOPT{
     //
     alphaMINonLinearSRegDiscreteCostFunction(){};
     //   void resample_source_data(const int & sourcept);
-   
+
   };
 
  class HOUnivariateNonLinearSRegDiscreteCostFunction: public UnivariateNonLinearSRegDiscreteCostFunction
@@ -582,7 +585,7 @@ namespace DISCRETEOPT{
 
     double computeUnaryCost(int node, int label){return 0;};
 
-    void set_relations(const boost::shared_ptr<RELATIONS> &CONTROL,const boost::shared_ptr<RELATIONS> &TARG){_controlrel=CONTROL; _targetrel=TARG;  
+    void set_relations(const boost::shared_ptr<RELATIONS> &CONTROL,const boost::shared_ptr<RELATIONS> &TARG){_controlrel=CONTROL; _targetrel=TARG;
       _sourcerel=_controlrel->invert_relationsTR(_CPgrid,_SOURCE);  }
     double triplet_likelihood(const int &,const int &,const int &,const int &,const Pt &,const Pt &,const Pt &);
 
@@ -602,101 +605,56 @@ namespace DISCRETEOPT{
 
     void set_relations(const boost::shared_ptr<RELATIONS> &CONTROL,const boost::shared_ptr<RELATIONS> &TARG){_controlrel=CONTROL; _targetrel=TARG;
       _sourcerel=_controlrel->invert_relationsTR(_CPgrid,_SOURCE); }
-   
+
     double triplet_likelihood(const int &,const int &,const int &,const int &,const Pt &,const Pt &,const Pt &);
   };
- 
- class SegmentationCostFunction: public DiscreteCostFunction
+
+
+
+ class RegularisationDiscreteCostFunction: public SRegDiscreteCostFunction
+ {
+ 	 protected:
+
+     //////////////////////// MESHES //////////////////////
+    // NEWMESH::newmesh _SPHERE; // SOURCE MESH
+     float _rexp;
+
+   public:
+     //
+     // Constructor.
+     //
+     RegularisationDiscreteCostFunction(double shear, double bulk, double exp);
+
+
+	 void initialize(int numNodes,int numLabels, int numPairs,int numTriplets = 0, int numQuartets = 0); // quartets not used yet
+	 //void reset_CPgrid(const NEWMESH::newmesh & grid, int num=0){_SPHERE=grid;}
+	 double computeTripletRegularisation(int triplet, int labelA, int labelB, int labelC);
+
+ };
+
+ class MetricDistortionDiscreteCostFunction: public RegularisationDiscreteCostFunction
   {
-  protected:
-    boost::shared_ptr<RELATIONS> _neighbours;
-    vector<Matrix> _DATA; 
-    newmesh _SOURCE;
-    double _lambda1;
-    double _lambda2;
-    int _BScount;
-    int _num_subjects;
-  public:
-    //
-    // Constructor.
-    //
-  SegmentationCostFunction():_lambda1(0.1),_lambda2(0.01),_num_subjects(1){_BScount=1; _verbosity=false; _outdir="";};
 
-    //// parameterise
-    virtual void set_parameters(myparam &);
-    void initialize(int numNodes, int numLabels, int numPairs,int numTriplets = 0, int numQuartets = 0); // quartets not used yet
-    void set_relations(const boost::shared_ptr<RELATIONS> &REL){_neighbours=REL;}
-    void set_DATA(const vector<Matrix> & TMP){_DATA=TMP; _num_subjects=_DATA.size(); }
-    void set_SURFACE(const newmesh & SURFACE){_SOURCE=SURFACE;}
+      protected:
+      bool isinitialised;
 
-    //// compute unary costs
+  	  public:
+		//
+		// Constructor.
+		//
+		MetricDistortionDiscreteCostFunction(double shear, double bulk, double exp):RegularisationDiscreteCostFunction(shear, bulk,  exp){isinitialised=false;}
 
-    void computeUnaryCosts();
-    double computeUnaryCost(int node, int label);
 
-    //// compute pairwise costs
-    double computePairwiseCost(int pair, int labelA, int labelB);
-    void computePairwiseCosts(const int *pairs) ;
-    
-    //compute triplet costs
-    // void computeTripletCosts();
-    double computeTripletCost(int triplet, int labelA, int labelB, int labelC);
-     	
-  };
+		double computeTripletCost(int triplet, int labelA, int labelB, int labelC){
+			if (isinitialised==false)
+				throw  DISCRETEOPTHOCRException("MetricDistortionDiscreteCostFunction::You must supply meshes.");
+			return computeTripletRegularisation(triplet,labelA, labelB,labelC);
 
- class JointRegistrationSegmentationCF: public SegmentationCostFunction
-  {
-    vector<boost::shared_ptr<RELATIONS> > _neighbours; 
-    vector<newmesh> _ALLSOURCE;
+		}
+};
 
-    float lambda_reg;
 
-    public:
-    //
-    // Constructor.
-    //
-  JointRegistrationSegmentationCF(){_BScount=1; _verbosity=false; _outdir="";_lambda1=0.1;_lambda2=0.01;_num_subjects=1;};
 
-    //// parameterise
-    void set_parameters(myparam &);
-    void initialize(int numNodes,int numLabels, int numPairs,int numTriplets = 0, int numQuartets = 0); // quartets not used yet
-    
-    //// compute unary costs
 
-    void computeUnaryCosts();
-    double computeUnaryCost(int node, int label);
-
-    //// compute pairwise costs
-    double computePairwiseCost(int pair, int labelA, int labelB);
-    void computePairwiseCosts(const int *pairs) ;
-    
-    //compute triplet costs
-    //  void computeTripletCosts();
-    double computeTripletCost(int triplet, int labelA, int labelB, int labelC);
-   
-  };
-
- class MetricDistortionDiscreteCostFunction: public SRegDiscreteCostFunction
-  {
-  protected:
-
-    //////////////////////// MESHES //////////////////////
-    NEWMESH::newmesh _ANAT; // TARGET MESH
-    NEWMESH::newmesh _SPHERE; // SOURCE MESH   
-    float _rexp;
-   
-  public:
-    //
-    // Constructor.
-    //
-    MetricDistortionDiscreteCostFunction(newmesh ANAT, double shear, double bulk,double exp){_ANAT=ANAT; _mu=shear; _kappa=bulk; _rexp=exp; cout << " bulk modulus " << _kappa << " shear modulus here " << _mu << endl; };
-    /**
-     * Destructor.
-     */
-
-    void initialize(int numNodes,int numLabels, int numPairs,int numTriplets = 0, int numQuartets = 0); // quartets not used yet
-    void reset_CPgrid(const NEWMESH::newmesh & grid, int num=0){_SPHERE=grid;}
-    double computeTripletCost(int triplet, int labelA, int labelB, int labelC);
-  };
 
 }

@@ -9,9 +9,9 @@
 //#include "ELC/ELC.h"
 //#ifdef HAS_QPBO
 //#include "QPBO/QPBO.hpp"
-//#else 
+//#else
 //#include <FastPD/FastPD.h>
-//#endif 
+//#endif
 
 #include <iostream>
 #include <time.h>
@@ -32,7 +32,7 @@ namespace MESHREG {
       case ELC_HOCR:
       {
         PBF<REAL> qpbf;
-       
+
         pbf.reduceHigher();
 	pbf.toQuadratic(qpbf, pbf.maxID()+1); // Reduce the remaining higher-order terms using HOCR adding auxiliary variables
 	qpbf.convert(MODEL, qpbf.maxID()+1);
@@ -41,7 +41,7 @@ namespace MESHREG {
         break;
       }
       case ELC_APPROX:
-      { 
+      {
         //PBF<REAL> qpbf;
 	//qpbf = pbf;
 	pbf.reduceHigherApprox();
@@ -61,7 +61,7 @@ namespace MESHREG {
         break;
 
       }
-     
+
       }
     }
 
@@ -72,13 +72,13 @@ namespace MESHREG {
   const int numPairs    = energy->getNumPairs();
   const int numTriplets = energy->getNumTriplets();
   const int numQuartets = energy->getNumQuartets();
-  const int numthreads  = energy->getNumthreads();
+  //const int numthreads  = energy->getNumthreads();
   const int *pairs    = energy->getPairs();
   const int *triplets = energy->getTriplets();
   const int *quartets = energy->getQuartets();
 
-  const int numGraphNodes = numNodes + numTriplets + 5 * numQuartets;
-  const int numGraphEdges = numPairs + 3 * numTriplets + 17 * numQuartets;
+  //const int numGraphNodes = numNodes + numTriplets + 5 * numQuartets;
+  //const int numGraphEdges = numPairs + 3 * numTriplets + 17 * numQuartets;
   //  cout << "  numNodes  " <<  numNodes  << " numPairs " << numPairs << " " << numTriplets << endl;
   #ifdef HAS_QPBO
   if(verbose) cout << " has QPBO " << endl;
@@ -86,8 +86,7 @@ namespace MESHREG {
   #endif
   boost::shared_ptr<DiscreteModelDummy> FPDMODEL=boost::shared_ptr<DiscreteModelDummy>(new DiscreteModelDummy());
 
-  double max_unlabeled_ratio = 0;
-  double avg_unlabeled_ratio = 0;
+  //double avg_unlabeled_ratio = 0;
 
   const int numSweeps = NUM_SWEEPS;
   const int numLabels = energy->getNumLabels();
@@ -95,58 +94,57 @@ namespace MESHREG {
 
   //energy->applytestLabeling(labeling,-1);
   double initEnergy = energy->evaluateTotalCostSum();
-  
+
   double lastEnergy = initEnergy;
-  double unlabeledMax = 0, unlabeledAvg = 0;
+  double unlabeledAvg = 0;//unlabeledMax = 0, 
   double sumlabeldiff=0;
 
- 
+
   for(int sweep = 0; sweep < numSweeps; ++sweep)
   {
     for(int label = 0; label < numLabels; ++label)
     {
-      //cout << "1" << label <<  endl;      
+      //cout << "1" << label <<  endl;
       sumlabeldiff=0;
 
       PBF<REAL> pbf;
-      int unlabeledNodes = 0;
       int improveCounter = 0;
 
       double ratioUnlabeled = 0;
       int nodesChanged = 0;
-      
-     
-      
+
+
+
       std::vector<UnaryData> unary_data(numNodes);
-    
+
       for(int node = 0; node < numNodes; ++node)
 	{
 	  unary_data[node].buffer[0] = energy->computeUnaryCost(node,labeling[node]);	//0
 	  unary_data[node].buffer[1] = energy->computeUnaryCost(node,label);				//1
-	
+
 	  sumlabeldiff+=abs(label-labeling[node]);
 	}
-     
+
       //cout << " 2 " << endl;
       if(sumlabeldiff>0){
 	for(int node = 0; node < numNodes; ++node)
 	  {
-	   
+
 	    pbf.AddUnaryTerm(node, unary_data[node].buffer[0], unary_data[node].buffer[1]);
 	  }
 
-    
+
 	std::vector<PairData> pair_data(numPairs);
 
 	for(int pair = 0; pair < numPairs; ++pair)
 	  {
 	    const int nodeA = pairs[pair*2];
 	    const int nodeB = pairs[pair*2+1];
-	   
+
 	      pair_data[pair].buffer[0] = energy->computePairwiseCost(pair,labeling[nodeA],labeling[nodeB]);	//00
 	      pair_data[pair].buffer[1] = energy->computePairwiseCost(pair,labeling[nodeA],label);			//01
 	      pair_data[pair].buffer[2] = energy->computePairwiseCost(pair,label,labeling[nodeB]);			//10
-	      pair_data[pair].buffer[3] = energy->computePairwiseCost(pair,label,label);	
+	      pair_data[pair].buffer[3] = energy->computePairwiseCost(pair,label,label);
 					//11
 	  }
 
@@ -173,18 +171,18 @@ namespace MESHREG {
 	    const int nodeA = triplets[triplet*3];
 	    const int nodeB = triplets[triplet*3+1];
 	    const int nodeC = triplets[triplet*3+2];
-	 	    
+
 	    triplet_data[triplet].buffer[0] = energy->computeTripletCost(triplet,labeling[nodeA],labeling[nodeB],labeling[nodeC]);	//000
 	    triplet_data[triplet].buffer[1] = energy->computeTripletCost(triplet,labeling[nodeA],labeling[nodeB],label);			//001
 	    triplet_data[triplet].buffer[2] = energy->computeTripletCost(triplet,labeling[nodeA],label,labeling[nodeC]);			//010
 	    triplet_data[triplet].buffer[3] = energy->computeTripletCost(triplet,labeling[nodeA],label,label);						//011
 	    triplet_data[triplet].buffer[4] = energy->computeTripletCost(triplet,label,labeling[nodeB],labeling[nodeC]);			//100
-	    triplet_data[triplet].buffer[5] = energy->computeTripletCost(triplet,label,labeling[nodeB],label);						//101 
-	    triplet_data[triplet].buffer[6] = energy->computeTripletCost(triplet,label,label,labeling[nodeC]);						//110 
-	    triplet_data[triplet].buffer[7] = energy->computeTripletCost(triplet,label,label,label);								//111 
+	    triplet_data[triplet].buffer[5] = energy->computeTripletCost(triplet,label,labeling[nodeB],label);						//101
+	    triplet_data[triplet].buffer[6] = energy->computeTripletCost(triplet,label,label,labeling[nodeC]);						//110
+	    triplet_data[triplet].buffer[7] = energy->computeTripletCost(triplet,label,label,label);								//111
 
 	  }
-	
+
 #endif
 	//cout << " 4 " << endl;
 	for (int triplet = 0; triplet < numTriplets; ++triplet)
@@ -194,13 +192,13 @@ namespace MESHREG {
 	    const int nodeC = triplets[triplet*3+2];
 	      int node_ids[3] = { nodeA, nodeB, nodeC };
 	      pbf.AddHigherTerm(3, node_ids, triplet_data[triplet].buffer);
-	     
+
 	  }
-	
+
 
 	std::vector<QuartetData> quartet_data(numQuartets);
 #ifdef HAS_TBB
-	
+
 	parallel_for( blocked_range<int>(0,numQuartets), computeQuartetCosts(energy,quartets,labeling,label,quartet_data) );
 
 #else
@@ -281,10 +279,10 @@ namespace MESHREG {
 	    if(ratioUnlabeled > unlabeledMax) unlabeledMax = ratioUnlabeled;
 	    unlabeledAvg += ratioUnlabeled;
 	  }
-    
-      
-	  
-      
+
+
+
+
 
 	for(int node = 0; node < numNodes; ++node)
 	  {
@@ -294,10 +292,10 @@ namespace MESHREG {
 	      }
 	  }
 
-	if(verbose){//energy->applytestLabeling(labeling,label); 
+	if(verbose){//energy->applytestLabeling(labeling,label);
 			newEnergy = energy->evaluateTotalCostSum();
-}	
-		
+}
+
 #else
 	FPDMODEL->reset();
 	//	cout << "HOCR fastPD " << endl;
@@ -322,30 +320,30 @@ namespace MESHREG {
 
 
 	//
-	
+
 	if(verbose){
 
-	  // 
+	  //
 	  energy->report();
 	  std::cout << "  LAB " << label << ":\t" << lastEnergy << " -> " << newEnergy << " / " << ratioUnlabeled * 100 << "% UNL / " << nodesChanged / static_cast<double>(numNodes) * 100 << "% CHN / IMP: " << improveCounter << std::endl;
 	  lastEnergy = newEnergy;
       }
 
-      
+
 	//	exit(1);
       }
-    
+
       }
     }
-    
+
     unlabeledAvg /= static_cast<double>(numLabels*numSweeps);
 #ifndef PRINT_ENERGY
 //cout << " evaluateTotalCost " << endl;
     //energy->applytestLabeling(labeling,numLabels+1);
     lastEnergy = energy->evaluateTotalCostSum();
 #endif
-    
+
     return lastEnergy;
-  
+
 	}
 }

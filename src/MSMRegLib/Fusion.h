@@ -15,10 +15,6 @@
 #include "ELC/ELC.h"
 #endif
 
-#ifdef HAS_QPBO
-#include "QPBO/QPBO.hpp"
-#endif
-#include <FastPD/FastPD.h>
 
 
 #ifdef HAS_TBB
@@ -35,6 +31,7 @@ using namespace tbb;
 #include "DiscreteOpt/DiscreteModel.h"
 #endif
 
+#include <FastPD/FastPD.h>
 
 using namespace FPD;
 using namespace detail;
@@ -83,8 +80,8 @@ namespace MESHREG {
 	my_DATA[triplet].buffer[2] = my_energy->computeTripletCost(triplet,my_labels[nodeA],my_current_label,my_labels[nodeC]);			//010
 	my_DATA[triplet].buffer[3] = my_energy->computeTripletCost(triplet,my_labels[nodeA],my_current_label,my_current_label);						//011
 	my_DATA[triplet].buffer[4] = my_energy->computeTripletCost(triplet,my_current_label,my_labels[nodeB],my_labels[nodeC]);			//100
-	my_DATA[triplet].buffer[5] = my_energy->computeTripletCost(triplet,my_current_label,my_labels[nodeB],my_current_label);						//101 
-	my_DATA[triplet].buffer[6] = my_energy->computeTripletCost(triplet,my_current_label,my_current_label,my_labels[nodeC]);						//110 
+	my_DATA[triplet].buffer[5] = my_energy->computeTripletCost(triplet,my_current_label,my_labels[nodeB],my_current_label);						//101
+	my_DATA[triplet].buffer[6] = my_energy->computeTripletCost(triplet,my_current_label,my_current_label,my_labels[nodeC]);						//110
 	my_DATA[triplet].buffer[7] = my_energy->computeTripletCost(triplet,my_current_label,my_current_label,my_current_label);
       }
     }
@@ -111,12 +108,12 @@ namespace MESHREG {
 	const int nodeB = my_quartet[quartet*4+1];
 	const int nodeC = my_quartet[quartet*4+2];
 	const int nodeD = my_quartet[quartet*4+3];
-	
+
 	my_DATA[quartet].buffer[0]  = my_energy->computeQuartetCost(quartet,my_labels[nodeA],my_labels[nodeB],my_labels[nodeC],my_labels[nodeD]);
 	my_DATA[quartet].buffer[1]  = my_energy->computeQuartetCost(quartet,my_labels[nodeA],my_labels[nodeB],my_labels[nodeC],my_current_label);
 	my_DATA[quartet].buffer[2]  = my_energy->computeQuartetCost(quartet,my_labels[nodeA],my_labels[nodeB],my_current_label,my_labels[nodeD]);
 	my_DATA[quartet].buffer[3]  = my_energy->computeQuartetCost(quartet,my_labels[nodeA],my_labels[nodeB],my_current_label,my_current_label);
-	
+
 	my_DATA[quartet].buffer[4]  = my_energy->computeQuartetCost(quartet,my_labels[nodeA],my_current_label,my_labels[nodeC],my_labels[nodeD]);
 	my_DATA[quartet].buffer[5]  = my_energy->computeQuartetCost(quartet,my_labels[nodeA],my_current_label,my_labels[nodeC],my_current_label);
 	my_DATA[quartet].buffer[6]  = my_energy->computeQuartetCost(quartet,my_labels[nodeA],my_current_label,my_current_label,my_labels[nodeD]);
@@ -157,7 +154,7 @@ namespace MESHREG {
      * Destructor.
      */
     ~Fusion() {}
-  
+
     template<typename OPTIMIZER> static void reduce_and_convert(ELCReduce::PBF<REAL>&,OPTIMIZER&, Reduction);
     /**
      * Runs the optimization.
