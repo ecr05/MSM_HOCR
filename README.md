@@ -17,7 +17,7 @@ src/MSM - binaries
 
 extras/ELC1.04 - the ELC library. This is needed for optimisation
 
-Licenses - including copy of the ELC and FastPD licence info.  (for information only; I am not supplying copies of these libraries)
+Licenses - including copy of the ELC and FastPD licence info.  (for information only; I supply the ELC library with permission from the author (for research use only), FSL have a licence agreement with FastPD and it is released with FSL)
 
 allparameterssulcDRconfStage1to4 - config file for run MSM cortical folding alignment (HCP multimodal parcellation compatible)
 
@@ -29,7 +29,7 @@ Description:
 
 This MSM github repository has been moved from CVS. It provides the source code for MSM specific functions. To run the code will require external libraries:
 
-FSL - you will need to compile from source (available here: https://fsl.fmrib.ox.ac.uk/fsldownloads/fsldownloadmain.html)
+FSL - you will the source code (available here: https://fsl.fmrib.ox.ac.uk/fsldownloads/fsldownloadmain.html)
 
 ELC - packaged with this repository (extras ELC1.04)
 
@@ -39,15 +39,7 @@ Currently this repository is for development only, and compilation may not run s
 
 To Compile:
 
-You must have FSL installed from source, following the instructions online (https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation/SourceCode/FslView) setting $FSLDIR and $FSLDEVDIR environment variables. The include paths with install in $FSLDEVDIR/include. Copy ELC1.04/ELC to $FSLDEVDIR/extras/include (you must rename MACROS MAX and MIN as they also appear in FSL) Link to the version of FastPD provided by FSL. Make install directories (in order):
-
-newmesh
-DiscreteOpt
-FastPD
-MSMRegLib
-MSM
-
-Binaries will be found in MSM
+see https://github.com/ecr05/MSM_HOCR_macOSX/blob/master/compilation_instructions
 
 Overview of the method.
 
@@ -75,7 +67,7 @@ When using please cite:
 
 Robinson, Emma C., Saad Jbabdi, Matthew F. Glasser, Jesper Andersson, Gregory C. Burgess, Michael P. Harms, Stephen M. Smith, David C. Van Essen, and Mark Jenkinson. "MSM: A new flexible framework for Multimodal Surface Matching." Neuroimage 100 (2014): 414-426.
 
-Emma C. Robinson, Ben Glocker, Kara Garcia, Matthew F. Glasser, Antonios Makropoulos, Jelena Bozek, Robert Wright, Andreas Schuh, Matthew Webster, Jana Hutter, Anthony Price, Lucilio Cordero Grand, Emer Hughes, Nora Tusor, Timothy S. Coalson, Philip V. Bayly, David C. Van Essen, Stephen M. Smith, A. David Edwards, Joseph Hajnal, Mark Jenkinson, Daniel Rueckert,. "Multimodal Surface Matching with Higher-Order Smoothness Constraints." (under review)
+Robinson, E.C., Garcia, K., Glasser, M.F., Chen, Z., Coalson, T.S., Makropoulos, A., Bozek, J., Wright, R., Schuh, A., Webster, M. and Hutter, J., 2017. Multimodal surface matching with higher-order smoothness constraints. NeuroImage.
 
 Ishikawa, Hiroshi. "Higher-order clique reduction without auxiliary variables." Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 2014.
 
