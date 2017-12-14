@@ -302,7 +302,7 @@ class smallPBF
 {
 	typedef typename Terms<REAL>::variables variables;
 public:
-	smallPBF() : constant(0), numvars(0), MAX(std::numeric_limits<REAL>::max()), MIN(std::numeric_limits<REAL>::min()) {}
+	smallPBF() : constant(0), numvars(0), MAX_ELC(std::numeric_limits<REAL>::max()), MIN_ELC(std::numeric_limits<REAL>::min()) {}
 
 	void setVars(int n, VVecIt vs) 		// vs must be sorted
 	{
@@ -337,7 +337,7 @@ public:
 	{
 		int numcore = core.size();
 		BITMASK tn = 1 << numcore;
-		REAL maxmin1 = MIN, maxmin2 = MIN, minmax = MAX;
+		REAL maxmin1 = MIN_ELC, maxmin2 = MIN_ELC, minmax = MAX_ELC;
 		eo.create(numcore);
 		std::vector<BITMASK>& eobits = odd ? eo.obits : eo.ebits;
 		BITMASK corex= varvector(core), i = 0;
@@ -378,7 +378,7 @@ public:
 	int getMax(bool odd) // odd: if false, find the even max (with even number of 1s), if true, find the odd max
 	{
 		int maxIdx = -1, tn = 1 << (numvars - 1);
-		REAL maxv = MIN;
+		REAL maxv = MIN_ELC;
 		eo.create(numvars);
 		for (int i = 0; i < tn; i++)
 		{
@@ -424,8 +424,8 @@ private:
 			for (BITMASK ix = 0; ix < tn; ix++)
 				if (!(~ix & (*it).first))
 					vals[ix] += (*it).second;
-		maxv = MIN;
-		minv = MAX;
+		maxv = MIN_ELC;
+		minv = MAX_ELC;
 		for (BITMASK ix = 0; ix < tn; ix++)
 		{
 			REAL val = vals[ix];
@@ -497,7 +497,7 @@ private:
 	int numvars;
 	std::vector<std::pair<BITMASK, REAL> > terms;
 	static evenodd eo;
-	REAL MAX, MIN;
+	REAL MAX_ELC, MIN_ELC;
 };
 
 template<typename REAL> evenodd smallPBF<REAL>::eo;
