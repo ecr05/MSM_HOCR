@@ -13,7 +13,7 @@ mkdir -p  $FSLDEVDIR  $FSLDEVDIR/extras $FSLDEVDIR/extras/include $FSLDEVDIR/ext
 Copy/move the folder extras/ELC1.04/ELC from this repository to your extras/ELC1.04/ELC
 Copy $FSLDIR/src/FastPDlib to $FSLDEVDIR/extras/src
 
-Then compile (make install) each repository directory in order:
+Then compile (make install) each repository directory in order (note you require c++11 support):
 
 newmesh
 DiscreteOpt
