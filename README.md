@@ -1,5 +1,5 @@
 # MSM_HOCR
-Multimodal Surface Matching with Higher order Clique Reduction. Source code. Version 1.00 (November 29th, 2016)
+Multimodal Surface Matching with Higher order Clique Reduction. Source code. Version 3.00 (Dec 2017)
 
 Copyright 2016 Emma C Robinson. This software may only be used or distributed for non-commercial, research purposes. If you have any questions please contact emma.robinson05[at]imperial.ac.uk
 
