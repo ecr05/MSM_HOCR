@@ -15,7 +15,7 @@ src/MSMRegLib - the main registration class
 
 src/MSM - binaries
 
-Licenses - including copy of the ELC and FastPD licence info.  (for information only; I am not supplying copies of these libraries)
+Licenses - including copy of the ELC and FastPD licence info.  (for information only; I supply the ELC library with permission from the author (for research use only), FSL have a licence agreement with FastPD and it is released with FSL)
 
 allparameterssulcDRconfStage1to4 - config file for run MSM cortical folding alignment (HCP multimodal parcellation compatible)
 
@@ -27,12 +27,11 @@ Description:
 
 This MSM github repository has been moved from CVS. It provides the source code for MSM specific functions. To run the code will require external libraries:
 
-FSL - you will need to compile from source (available here: https://fsl.fmrib.ox.ac.uk/fsldownloads/fsldownloadmain.html)
+FSL - you will the source code (available here: https://fsl.fmrib.ox.ac.uk/fsldownloads/fsldownloadmain.html)
 
 ELC - available here: http://www.f.waseda.jp/hfs/software.html
 
-FastPD - FSL have obtained a licence for this and the necesary version of this library will be released in the next version of FSL
-
+FastPD - FSL have obtained a licence for this and the necesary version of this library has been released in FSL
 
 Currently this repository is for development only. However, we are working on an install script to accompany this FSL release. If you are interested in obtaining binaries of the code please visit here: https://www.doc.ic.ac.uk/~ecr05/MSM_HOCR_v1/
 
@@ -62,7 +61,7 @@ When using please cite:
 
 Robinson, Emma C., Saad Jbabdi, Matthew F. Glasser, Jesper Andersson, Gregory C. Burgess, Michael P. Harms, Stephen M. Smith, David C. Van Essen, and Mark Jenkinson. "MSM: A new flexible framework for Multimodal Surface Matching." Neuroimage 100 (2014): 414-426.
 
-Emma C. Robinson, Ben Glocker, Kara Garcia, Matthew F. Glasser, Antonios Makropoulos, Jelena Bozek, Robert Wright, Andreas Schuh, Matthew Webster, Jana Hutter, Anthony Price, Lucilio Cordero Grand, Emer Hughes, Nora Tusor, Timothy S. Coalson, Philip V. Bayly, David C. Van Essen, Stephen M. Smith, A. David Edwards, Joseph Hajnal, Mark Jenkinson, Daniel Rueckert,. "Multimodal Surface Matching with Higher-Order Smoothness Constraints." (under review)
+Robinson, E.C., Garcia, K., Glasser, M.F., Chen, Z., Coalson, T.S., Makropoulos, A., Bozek, J., Wright, R., Schuh, A., Webster, M. and Hutter, J., 2017. Multimodal surface matching with higher-order smoothness constraints. NeuroImage.
 
 Ishikawa, Hiroshi. "Higher-order clique reduction without auxiliary variables." Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 2014.
 
