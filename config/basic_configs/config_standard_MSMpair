@@ -1,0 +1,9 @@
+--sigma_in=6,6,4,2
+--sigma_ref=6,6,4,2
+--lambda=0,0.1,0.2,0.3
+--it=50,5,10,10
+--opt=AFFINE,DISCRETE,DISCRETE,DISCRETE
+--CPgrid=0,2,3,4
+--SGgrid=0,4,5,6
+--datagrid=5,5,5,6
+--regoption=1
