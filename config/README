@@ -1,0 +1,12 @@
+The following folders provide configs for running MSM under a range of conditions.
+
+To simply get started with MSM you can use configs from basic_configs. To run the Robinson et al 2014 paper version of the software use basic_configs/config_standard_MSMpair; to run the Robinson et al 2018 paper version with improved regulairsation use basic_configs/config_standard_MSM_strain. Note both of these are initialised with an Affine registration; if data has been pre-aligned this level should be removed. The key differences between these two software versions are that the 2014 version is much quicker, but the the 2018 version will return much smoother warps and better alignment in the presence of noise
+
+To run the HCP multimodal parcellation configs please reference HCP_multimodal_alignment. These configs are also available as part of the HCP pipelines.
+
+To replicate the experiments from the Robinson et al 2018 paper please reference NeuroImage2017_configs, where here MSM_pair refers to the 2014 version of the software and MSMstrain refers to the 2018 version. aMSM is anatomically regulaised MSM and sMSM is spherically regularised. Please reference the 2018 paper for more details.
+
+
+Robinson, Emma C., et al. "MSM: a new flexible framework for Multimodal Surface Matching." Neuroimage 100 (2014): 414-426.
+Robinson, Emma C., et al. "Multimodal surface matching with higher-order smoothness constraints." NeuroImage 167 (2018): 453-465.
+APA	
