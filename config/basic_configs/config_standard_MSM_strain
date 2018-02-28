@@ -1,7 +1,7 @@
 --simval=2,2,2,2
---sigma_in=6,6,4,2
---sigma_ref=6,6,4,2
---lambda=0,0.5,0.475,0.5
+--sigma_in=2,4,2,1
+--sigma_ref=2,4,2,1
+--lambda=0,0.05,0.1,0.3
 --it=50,20,25,25
 --opt=AFFINE,DISCRETE,DISCRETE,DISCRETE
 --CPgrid=0,2,3,4
@@ -11,8 +11,6 @@
 --regexp=2
 --dopt=HOCR
 --VN
---rescaleL
---triclique
 --k_exponent=2
 --bulkmod=1.6
 --shearmod=0.4
