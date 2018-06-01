@@ -35,8 +35,6 @@ ELC - packaged with this repository (extras ELC1.04)
 
 FastPD - FSL have obtained a licence for this and the necesary version of this library will be released in the next version of FSL
 
-Currently this repository is for development only, and compilation may not run smoothly. If you are interested in obtaining binaries of the code please visit here: https://www.doc.ic.ac.uk/~ecr05/MSM_HOCR_v1/. Otherwise contact as emma.robinson[at]kcl.ac.uk
-
 To Compile:
 
 see https://github.com/ecr05/MSM_HOCR_macOSX/blob/master/compilation_instructions
