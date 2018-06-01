@@ -37,7 +37,7 @@ FastPD - FSL have obtained a licence for this and the necesary version of this l
 
 To Compile:
 
-see https://github.com/ecr05/MSM_HOCR_macOSX/blob/master/compilation_instructions
+see https://github.com/ecr05/MSM_HOCR/blob/master/compilation%20instructions
 
 Overview of the method.
 
