@@ -1,0 +1,24 @@
+You need to download FSL from source (no need to install) and add the follow to your .bash_profile
+
+export FSLDIR=<path to your extracted fsl>
+. ${FSLDIR}/etc/fslconf/fsl.sh
+
+You also need to add 
+
+export FSLDEVDIR=<folder where includes and libraries will go>
+
+Then create $FSLDEVDIR and associated folders:
+mkdir -p  $FSLDEVDIR  $FSLDEVDIR/extras $FSLDEVDIR/extras/include $FSLDEVDIR/extras/src
+
+Copy/move the folder extras/ELC1.04/ELC from this repository to your $FSLDEVDIR as $FSLDEVDIR/extras/include/ELC
+Copy $FSLDIR/src/FastPDlib to $FSLDEVDIR/extras/src
+
+Then compile (make install) each repository directory in order (note you require c++11 support):
+
+newmesh
+DiscreteOpt
+FastPDlib (from $FSLDEVDIR/extras/src)
+MSMRegLib
+MSM
+
+Binaries will be deposited in the MSM folder

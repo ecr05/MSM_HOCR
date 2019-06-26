@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ELCdemo", "ELCdemo.vcxproj", "{0B9495BD-0869-4996-9890-6F0D153B416E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0B9495BD-0869-4996-9890-6F0D153B416E}.Debug|x64.ActiveCfg = Debug|x64
+		{0B9495BD-0869-4996-9890-6F0D153B416E}.Debug|x64.Build.0 = Debug|x64
+		{0B9495BD-0869-4996-9890-6F0D153B416E}.Release|x64.ActiveCfg = Release|x64
+		{0B9495BD-0869-4996-9890-6F0D153B416E}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

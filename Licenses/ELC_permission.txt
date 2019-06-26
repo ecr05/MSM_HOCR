@@ -1,0 +1,8 @@
+Per email correspondence between hfs[at]waseda.jp and emma.robinson01[at]gmail.com on 14 October 2016:
+
+"I hereby give permission to redistribute the ELC and HOCR library as a complete source code package as well as
+ in a binary form, for non-commercial use, as part of the Multimodal Surface Matching (MSM) software.
+
+As for commercial use, Waseda University has the right to negotiate and license any commercial use of at least
+the ELC part of the software."
+
