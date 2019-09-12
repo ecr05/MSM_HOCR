@@ -22,12 +22,12 @@ void Usage()
 
 int main(int argc, char **argv){
 
-  
+
   newmesh ico;
   int res;
-  char filename[1000];
+  char filename[1000],out[1000];
 
-  if(argc < 1){
+  if(argc < 2){
 
     Usage();
     exit(0);
@@ -40,8 +40,10 @@ int main(int argc, char **argv){
   argv++;
   
  
-  cout << " Make ico " << endl;
-  ico.make_mesh_from_icosa(res); true_rescale(ico,RAD); 
+  ico.make_mesh_from_icosa(res); true_rescale(ico,RAD);
+  sprintf(out," icosphere res: %d #vertices: %d ", res, ico.nvertices());
+  cout << out << endl;
+
   sprintf(filename,"ico-%d.surf.gii",res);
   ico.save(filename);
 }
