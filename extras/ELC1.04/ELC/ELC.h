@@ -156,6 +156,7 @@ void main()
 #include <iterator>
 #include<assert.h>
 #include <limits>
+#include <cmath>
 
 namespace ELCReduce {
 
