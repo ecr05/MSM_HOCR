@@ -853,8 +853,11 @@ namespace DISCRETEOPT{
   }
 
   void UnivariateNonLinearSRegDiscreteCostFunction::resample_target_data(const Pt &v0, const Pt &v1, const Pt &v2, const Pt &tmp, const int &n0, const int &n1, const int &n2, int &index){
-		for(int d=1;d<=FEAT->get_dim();d++){
-		  double targint=barycentric(v0,v1,v2,tmp,FEAT->get_ref_val(d,n0 + 1),FEAT->get_ref_val(d,n1 + 1),FEAT->get_ref_val(d,n2 + 1));
+    //cout << " in univariate cost resample" << endl;
+    for(int d=1;d<=FEAT->get_dim();d++){
+      //double targint=barycentric_mode(v0,v1,v2,tmp,FEAT->get_ref_val(d,n0 + 1),FEAT->get_ref_val(d,n1 + 1),FEAT->get_ref_val(d,n2 + 1));
+
+		   double targint=barycentric(v0,v1,v2,tmp,FEAT->get_ref_val(d,n0 + 1),FEAT->get_ref_val(d,n1 + 1),FEAT->get_ref_val(d,n2 + 1));
 		  _targetdata[index].push_back(targint);
 		}
 

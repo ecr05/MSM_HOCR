@@ -108,7 +108,6 @@ namespace DISCRETEOPT{
 		}
 		MVD/=tot;
 
-    cout << "m_max_d " << m_max_d << endl;
 		m_maxs_dist=m_max_d*Calculate_MaxVD(m_CPgrid);
 		////////////////// INITIALIZE COSTFCT ///////////////////
 
