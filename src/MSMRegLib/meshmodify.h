@@ -121,6 +121,7 @@ namespace MESHREG {
     float _regexp; // choice of exponent
     float _regscaling; // choice of exponent scaling for options 2 and 3
     float _pairwiselambda; ///scaling for group alignment
+    float _maxLdist; // distance to further label (in fractions of control point spacings)
     float _maxdist; // max areal disortion allowed before scaling is applied
     float _shearmod; // for strain regulariser
     float _bulkmod;    /// for strain regulariser
@@ -160,6 +161,7 @@ namespace MESHREG {
       _shearmod=0.4;
       _numthreads=1;
       _k_exp = 2.0;
+      _maxLdist=0.5;
       FEAT=boost::shared_ptr<featurespace>(new featurespace());
     };
 

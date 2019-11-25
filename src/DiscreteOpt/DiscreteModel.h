@@ -350,6 +350,7 @@ namespace DISCRETEOPT{
       _pairwise=false; _estquartet=false; m_triclique=false;
       m_inputrel=boost::shared_ptr<RELATIONS >(new RELATIONS());
       m_cp_neighbourhood=boost::shared_ptr<RELATIONS >(new RELATIONS ());
+      m_max_d=0.5;
     };
 
     /**
@@ -362,6 +363,7 @@ namespace DISCRETEOPT{
       initialize_cost_function(m_multivariate,m_simmeasure,PAR);
       m_inputrel=boost::shared_ptr<RELATIONS >(new RELATIONS());
       m_cp_neighbourhood=boost::shared_ptr<RELATIONS >(new RELATIONS ());
+      m_max_d=0.5;
 
     }
 
@@ -532,6 +534,7 @@ m_TARGET=target; m_SOURCE=source; }
     double m_maxs_dist; // define maximum distance between the centre of the sampling grid and the furthest label
     double MVD;
     float m_scale;
+    float m_max_d;
 
     bool m_multivariate;
     bool m_debug;

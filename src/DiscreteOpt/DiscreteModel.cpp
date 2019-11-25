@@ -21,10 +21,10 @@ namespace DISCRETEOPT{
 
   }
 
- 
+
   //===
   //====================================================================================================================//
-  
+
   //====================================================================================================================//
   void DiscreteModel::resetLabeling()
   {
@@ -50,16 +50,17 @@ namespace DISCRETEOPT{
 		  std::cout << labeling[i] << " ";
 		std::cout << std::endl;
   }
-  
-  
+
+
  //====================================================================================================================//
   void SRegDiscreteModel::set_parameters(myparam PAR){
       myparam::iterator it;
-      
+
       it=PAR.find("lambda");m_lambda=boost::get<float>(it->second);
       it=PAR.find("CPres");m_CPres=boost::get<int>(it->second);
-      it=PAR.find("SGres");m_SGres=boost::get<int>(it->second); 
-      it=PAR.find("simmeasure");m_simmeasure=boost::get<int>(it->second); 
+      it=PAR.find("SGres");m_SGres=boost::get<int>(it->second);
+      it=PAR.find("max_d");m_max_d=boost::get<float>(it->second);
+      it=PAR.find("simmeasure");m_simmeasure=boost::get<int>(it->second);
       it=PAR.find("regularisermode");m_regoption=boost::get<int>(it->second);
       it=PAR.find("multivariate");m_multivariate=boost::get<bool>(it->second);
       it=PAR.find("verbosity");m_verbosity=boost::get<bool>(it->second);
@@ -72,10 +73,10 @@ namespace DISCRETEOPT{
       if(m_regoption==1) _pairwise=true;
 
 
-      
-     
-  } 
-            
+
+
+  }
+
   void SRegDiscreteModel::Initialize(const newmesh &CONTROLGRID){
 		ColumnVector vMAXmvd;
 		double MVDmax=0.0;
@@ -107,7 +108,8 @@ namespace DISCRETEOPT{
 		}
 		MVD/=tot;
 
-		m_maxs_dist=0.5*Calculate_MaxVD(m_CPgrid);
+    cout << "m_max_d " << m_max_d << endl;
+		m_maxs_dist=m_max_d*Calculate_MaxVD(m_CPgrid);
 		////////////////// INITIALIZE COSTFCT ///////////////////
 
 		if(costfct.get()){
@@ -119,13 +121,13 @@ namespace DISCRETEOPT{
 		}
 		else {throw  DISCRETEOPTHOCRException("Discrete Model:: You have not initialised the discrete costfunction before initialising the model");}
 
-	
-		m_iter=1;
-   
 
-   
+		m_iter=1;
+
+
+
   }
-  
+
   void SRegDiscreteModel::initialize_cost_function(const bool &MV, const int & sim, myparam &P){
       //////////////////////// CREATE COST FUNCTION //////////////////////
       if(MV){
@@ -134,7 +136,7 @@ namespace DISCRETEOPT{
 	  costfct=boost::shared_ptr<SRegDiscreteCostFunction>(new HOMultivariateNonLinearSRegDiscreteCostFunction());
 	else
 	  costfct=boost::shared_ptr<SRegDiscreteCostFunction>(new MultivariateNonLinearSRegDiscreteCostFunction()); // choose CF based on choice of method of calculation of the data term
-	
+
       }
       else if (sim==4) {throw  DISCRETEOPTHOCRException("DiscreteModel ERROR:: alpha MI not in this version of MSM yet");}  //costfct=boost::shared_ptr<SRegDiscreteCostFunction>(new alphaMINonLinearSRegDiscreteCostFunction());
       else{
@@ -143,14 +145,14 @@ namespace DISCRETEOPT{
 	else
 	  costfct=boost::shared_ptr<SRegDiscreteCostFunction>(new UnivariateNonLinearSRegDiscreteCostFunction());}
 
-  
+
       costfct->set_parameters(P);
-      
+
     }
 
   void SRegDiscreteModel::Initialize_sampling_grid(){
     //////////////////////// LABELS USING HIGHER RES GRID //////////////////////
-    m_samplinggrid.make_mesh_from_icosa(m_SGres); true_rescale(m_samplinggrid,RAD); 
+    m_samplinggrid.make_mesh_from_icosa(m_SGres); true_rescale(m_samplinggrid,RAD);
     ////// find the first centroid with 6 neighbours
     for(int i=0;i<m_samplinggrid.nvertices();i++){
       if(m_samplinggrid.get_total_neighbours(i)==6){
@@ -158,23 +160,23 @@ namespace DISCRETEOPT{
 	  break;
       }
     }
-   
-    label_sampling_grid(m_centroid,m_maxs_dist,m_samplinggrid);
-    
 
-   
+    label_sampling_grid(m_centroid,m_maxs_dist,m_samplinggrid);
+
+
+
   }
 
   void SRegDiscreteModel::label_sampling_grid(const int & centroid, const double & dist, NEWMESH::newmesh &Grid)
   {
-    
+
 		m_samples.clear(); m_barycentres.clear();
 		vector<int> getneighbours;
 		vector<int> newneighbours;
 		int label;
 		Pt sample;
 		ColumnVector found(Grid.nvertices()),found_tr(Grid.ntriangles());
-	   
+
 		centre=Grid.get_coord(centroid);
 		found=0;found_tr=0;
 		getneighbours.push_back(centroid);
@@ -254,12 +256,12 @@ namespace DISCRETEOPT{
 		m_num_pairs/=2;
 		pairs  = new int [m_num_pairs*2];
 		// pair_trIDs.resize(m_num_pairs,map<int,int>());
-	
+
 		for(int i=0;i<m_CPgrid.nvertices();i++){
 		  for(vector<int>::const_iterator j=m_CPgrid.nbegin(i); j!=m_CPgrid.nend(i);j++){
 		if(*j>i){
 		  int node_ids[2] = { i, *j};
-	
+
 		  sort_nodeids(node_ids,2);
 		  pairs[2*pair]=node_ids[0];
 		  pairs[2*pair+1]=node_ids[1];
@@ -268,13 +270,13 @@ namespace DISCRETEOPT{
 		  }
 
 		}
-	
+
 
   }
 
   void NonLinearSRegDiscreteModel::estimate_triplets(){
     m_num_triplets=m_CPgrid.ntriangles();
-   
+
     triplets  = new int [m_num_triplets*3];
 
     for(int i=0;i<m_CPgrid.ntriangles();i++){
@@ -285,41 +287,41 @@ namespace DISCRETEOPT{
       triplets[3*i+1]=node_ids[1];
       triplets[3*i+2]=node_ids[2];
     }
-   
-    
+
+
   }
-    
+
   void NonLinearSRegDiscreteModel::Initialize(const newmesh &CONTROLGRID){
-    
+
     SRegDiscreteModel::Initialize(CONTROLGRID);
     m_scale=1;
     if(_pairwise){
       //////////////////////// GET PAIRS //////////////
-      estimate_pairs(); 
+      estimate_pairs();
       // costfct->set_pairtrIDs(pair_trIDs);
     }
     else{
       /////////////////////////// INITIALIZE TRIPLETS /////////////////////
       estimate_triplets();
     }
-   
+
     /////////////////// CALCULATE FIXED GRID SPACINGS////////
-     
+
     double MVDinput=Calculate_MVD(m_TARGET);  /// estimate spacing of data grid from first vertex
-  
+
     /// INITIALIAZE LABEL GRID/////////
-    Initialize_sampling_grid();  
+    Initialize_sampling_grid();
     get_rotations(m_ROT);  /// enables rotation of sampling grid onto every CP
 
     //////////// INITIALIZE NEIGHBOURHOODS ////////////////
 
     m_inputrel=boost::shared_ptr<RELATIONS >(new RELATIONS (m_SOURCE,m_TARGET,1.5*asin(MVDinput/RAD)));
-    
+
   }
 
 
-  
- 
+
+
   void NonLinearSRegDiscreteModel::get_rotations(vector<Matrix> &ROT){ /// rotates sampling grid to each control point
     Matrix R,R2,R_n,R_n2,R_diff;
     Pt ci,CP,CP_n;
@@ -329,11 +331,11 @@ namespace DISCRETEOPT{
     for (int k=0;k<m_CPgrid.nvertices();k++){
       CP=m_CPgrid.get_coord(k);
       //// rotate sampling points to overlap with control point
-      R=estimate_rotation_matrix(ci,CP);    
+      R=estimate_rotation_matrix(ci,CP);
       ROT.push_back(R);
-    
+
     }
-    
+
   }
 
   void NonLinearSRegDiscreteModel::setupCostFunction()
@@ -343,10 +345,10 @@ namespace DISCRETEOPT{
     ////// use geodesic distances ////////
     costfct->reset_CPgrid(m_CPgrid);
 
-    if(m_iter==1){ 
+    if(m_iter==1){
         costfct->initialize_regulariser();
         m_cp_neighbourhood=boost::shared_ptr<RELATIONS >(new RELATIONS (m_SOURCE,m_CPgrid,3*asin(MVD/RAD)));
-    
+
 
         m_cp_neighbourhood->update_RELATIONS(m_SOURCE);
         costfct->set_relations(m_cp_neighbourhood,m_inputrel);
@@ -355,16 +357,16 @@ namespace DISCRETEOPT{
     costfct->reset_anatomical(m_outdir,m_iter);
 
     get_rotations(m_ROT);  /// instead of recalulating the source->CP neighbours, these are now constant (as source is moving with CPgrid) we we just need to recalculate the rotations of the label grid to the cp vertices
- 
-   
+
+
     if(m_debug){
     		char filename[1000];
     		sprintf(filename,"%sSOURCE-%d.surf",m_outdir.c_str(),m_iter); m_SOURCE.save(filename);
     		sprintf(filename,"%sSOURCE-%d.func",m_outdir.c_str(),m_iter); m_SOURCE.save(filename);
-     
+
     		if(m_iter==1){sprintf(filename,"%sTARGET.surf",m_outdir.c_str());  m_TARGET.save(filename); }
     		sprintf(filename,"%sCPgrid-%d.surf",m_outdir.c_str(),m_iter); m_CPgrid.save(filename);
-      
+
     }
 
     //////////// set samples (labels vary from iter to iter ) ///////////////
@@ -379,21 +381,21 @@ namespace DISCRETEOPT{
     costfct->set_labels(m_labels,m_ROT);
     if(m_verbosity)cout << " initialize cost function " << m_iter <<  endl;
     costfct->initialize(m_num_nodes,m_num_labels,m_num_pairs,m_num_triplets);
-   
+
     costfct->get_source_data();
 
-   
+
     if(_pairwise) costfct->setPairs(pairs);
     else costfct->setTriplets(triplets);
 
-      
-   
+
+
     m_iter++;
   }
 
 
   void NonLinearSRegDiscreteModel::applyLabeling(int *dlabels){
-   
+
     if(dlabels){
       for (int i=0;i<m_CPgrid.nvertices();i++){
 	//// rotate sampling points to overlap with control point
@@ -404,9 +406,9 @@ namespace DISCRETEOPT{
     }
 
     }
-   
-  } 
-  
+
+  }
+
 
 
   void RegularisationDiscreteModel::Initialize(const newmesh &CONTROLGRID){
