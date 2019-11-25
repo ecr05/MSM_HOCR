@@ -316,11 +316,11 @@ namespace DISCRETEOPT{
 		it=ALLPARAMS.find("exponent");_rexp=boost::get<float>(it->second);
 		it=ALLPARAMS.find("weight");_dweight=boost::get<bool>(it->second);
 		it=ALLPARAMS.find("anorm");_anorm=boost::get<bool>(it->second);
+    it=ALLPARAMS.find("align_labels");_labelalign=boost::get<bool>(it->second);
 		it=ALLPARAMS.find("scaling");_expscaling=boost::get<float>(it->second);
 		it=ALLPARAMS.find("shearmodulus");_mu=boost::get<float>(it->second);
 		it=ALLPARAMS.find("bulkmodulus");_kappa=boost::get<float>(it->second);
 		it=ALLPARAMS.find("kexponent");_k_exp=boost::get<float>(it->second);
-
 		it=ALLPARAMS.find("kNN");_kNN=boost::get<int>(it->second);
 
 		SRegDiscreteCostFunction::set_parameters(ALLPARAMS);
@@ -853,11 +853,18 @@ namespace DISCRETEOPT{
   }
 
   void UnivariateNonLinearSRegDiscreteCostFunction::resample_target_data(const Pt &v0, const Pt &v1, const Pt &v2, const Pt &tmp, const int &n0, const int &n1, const int &n2, int &index){
-    //cout << " in univariate cost resample" << endl;
-    for(int d=1;d<=FEAT->get_dim();d++){
-      //double targint=barycentric_mode(v0,v1,v2,tmp,FEAT->get_ref_val(d,n0 + 1),FEAT->get_ref_val(d,n1 + 1),FEAT->get_ref_val(d,n2 + 1));
 
-		   double targint=barycentric(v0,v1,v2,tmp,FEAT->get_ref_val(d,n0 + 1),FEAT->get_ref_val(d,n1 + 1),FEAT->get_ref_val(d,n2 + 1));
+    for(int d=1;d<=FEAT->get_dim();d++){
+
+       double targint;
+       if (_labelalign==true){
+          //cout << " in univariate cost resample mode" << endl;
+          targint=barycentric_mode(v0,v1,v2,tmp,FEAT->get_ref_val(d,n0 + 1),FEAT->get_ref_val(d,n1 + 1),FEAT->get_ref_val(d,n2 + 1));
+        }
+        else{
+          //cout << " in univariate cost resample normal" << endl;
+		      targint=barycentric(v0,v1,v2,tmp,FEAT->get_ref_val(d,n0 + 1),FEAT->get_ref_val(d,n1 + 1),FEAT->get_ref_val(d,n2 + 1));
+        }
 		  _targetdata[index].push_back(targint);
 		}
 

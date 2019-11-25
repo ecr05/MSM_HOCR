@@ -107,6 +107,7 @@ namespace MESHREG {
     bool _usetraining;
     bool _anat;
     bool _weight;
+    bool _alignL;
     bool _regoption2norm;
     bool _quartet;
     bool _set_group_lambda;
@@ -148,6 +149,7 @@ namespace MESHREG {
       _tricliquelikeihood=false;
       _quartet=false;
       _anat=false;
+      _alignL=false;
       _concattraining=false;
       _rescale_labels=false;
       _surfformat=".surf";

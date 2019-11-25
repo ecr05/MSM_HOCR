@@ -274,6 +274,11 @@ namespace NEWMESH {
     if(_method=="BARYCENTRIC" || _method=="ADAP_BARY"){
       barycentric_interpolation(in,ref,data,EXCL,_rel);
     }
+    else if (_method=="NN"){
+
+      nearest_neighbour_interpolation(in,ref,data,EXCL,_rel);
+
+    }
     else{
       if(((_rel.get()) &&_rel->Ncols()==in.nvertices()) || ((!_rel.get()) && (in.nvertices()>ref.nvertices()))){
       	downsample_w_interpolation(in,ref,sigma,data,EXCL,_rel);
@@ -286,13 +291,12 @@ namespace NEWMESH {
 
   void resampler::resampledata(NEWMESH::newmesh& in,const NEWMESH::newmesh& ref, boost::shared_ptr<BFMatrix> &data, const double &sigma, boost::shared_ptr<RELATIONS > _rel){
     boost::shared_ptr<NEWMESH::newmesh> EXCL;
-    cout << " in resample data " << _method <<  endl;
     if(_method=="BARYCENTRIC" || _method=="ADAP_BARY"){
-      cout << " barycentric " << endl;
+
       barycentric_interpolation(in,ref,data,EXCL,_rel);
     }
     else if (_method=="NN"){
-      cout << "choose NN"  << endl;
+
       nearest_neighbour_interpolation(in,ref,data,EXCL,_rel);
 
     }
@@ -1316,10 +1320,10 @@ namespace NEWMESH {
       else if (Ab < Aa && Ab < Ac) mode = va2;
       else mode=va3;
 
-      cout << " closest label " << Aa << " " << Ab << " " << Ac << endl;
+      //cout << " closest label " << Aa << " " << Ab << " " << Ac << endl;
     }
 
-    cout << "barycentric mode " << va1 << " " << va2 << " " << va3 << " mode" << mode << endl;
+    //cout << "barycentric mode " << va1 << " " << va2 << " " << va3 << " mode" << mode << endl;
 
     return  mode;
   }

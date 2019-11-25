@@ -463,6 +463,7 @@ namespace DISCRETEOPT{
     float _expscaling;
     bool _dweight;
     bool _anorm;
+    bool _labelalign;
 
     int _kNN;
     int _currentlabelA;

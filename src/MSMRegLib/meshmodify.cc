@@ -122,6 +122,9 @@ namespace MESHREG {
   Option<bool>  rescale_labels(string("--rescaleL"), false,
 				   string("rescale label grid rather than using barycentres"),
 				   false, no_argument);
+  Option<bool>  alignL(string("--alignL"), false,
+         			  string(" perform registration of label files"),
+         			  false, no_argument);
   Option<float>  maxLdist(string("--maxLdist"), 0.5,
          			 string("Distance to further label (in fractions of control point spacing)"),
          			 false,requires_argument);
@@ -202,6 +205,7 @@ namespace MESHREG {
     options.add(distweight);
     options.add(anorm);
     options.add(rescale_labels);
+    options.add(alignL);
     options.add(maxLdist);
     options.add(maxdist);
     options.add(controlptrange);
@@ -321,7 +325,7 @@ namespace MESHREG {
    }
   _varnorm=variancenormalize.value(); _exclude=exclude.value(); _quartet=quartet.value();
   _meshInterpolator=meshinterpolationmethod.value();  _dataInterpolator=datainterpolationmethod.value(); _weight=distweight.value(); _regoption2norm=anorm.value();
-  _threshold=cutthreshold.value(); _regscaling=expscaling.value(); _regexp=regulariserexp.value(); _maxLdist=maxLdist.value();
+  _alignL=alignL.value(); _threshold=cutthreshold.value(); _regscaling=expscaling.value(); _regexp=regulariserexp.value(); _maxLdist=maxLdist.value();
   _maxdist=maxdist.value(); _cprange=controlptrange.value();  _affinestepsize=affinestepsize.value(); _affinegradsampling=gradsampling.value(); _numthreads=threads.value();
   _rescale_labels=rescale_labels.value();
 
@@ -381,6 +385,7 @@ namespace MESHREG {
     PARAMETERS.insert(parameterPair("exponent",_regexp));
     PARAMETERS.insert(parameterPair("weight",_weight));
     PARAMETERS.insert(parameterPair("anorm",_regoption2norm));
+    PARAMETERS.insert(parameterPair("align_labels",_alignL));
     PARAMETERS.insert(parameterPair("scaling",_regscaling));
     PARAMETERS.insert(parameterPair("kNN",_alpha_kNN[i]));
     PARAMETERS.insert(parameterPair("verbosity",_verbose));
@@ -389,7 +394,6 @@ namespace MESHREG {
     PARAMETERS.insert(parameterPair("gradsampling",_affinegradsampling));
     PARAMETERS.insert(parameterPair("numthreads",_numthreads));
     PARAMETERS.insert(parameterPair("kexponent",_k_exp));
-
 
   }
 

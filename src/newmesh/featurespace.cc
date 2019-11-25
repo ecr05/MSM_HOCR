@@ -44,9 +44,8 @@ namespace NEWMESH {
 
     }
     icotmp.set_pvalues(DATA[0]->AsMatrix());
-    icotmp.save("resampled_data.func.gii");
-    cout << " end featurespace::resample " << endl;
-    exit(1);
+    //icotmp.save("resampled_data.func.gii");
+
     /// intensity normalise using histogram matching
     if(_intensitynorm){
 
