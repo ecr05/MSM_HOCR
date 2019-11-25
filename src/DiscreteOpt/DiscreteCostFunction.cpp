@@ -322,7 +322,6 @@ namespace DISCRETEOPT{
 		it=ALLPARAMS.find("kexponent");_k_exp=boost::get<float>(it->second);
 
 		it=ALLPARAMS.find("kNN");_kNN=boost::get<int>(it->second);
-		it=ALLPARAMS.find("pottsthreshold");_pottsthreshold=boost::get<float>(it->second);
 
 		SRegDiscreteCostFunction::set_parameters(ALLPARAMS);
 

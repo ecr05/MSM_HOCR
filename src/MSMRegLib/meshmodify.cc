@@ -129,10 +129,6 @@ namespace MESHREG {
 			 string("Set areal distortion threshold (default 4); for use with --regoptions 2 "),
 			 false,requires_argument,false);
 
-  Option<float>  pottsenergy(string("--potts"),0.0,
-			     string("Use potts model for mrf regulariser (strain only thus far). Supply threshold value"),
-			     false, requires_argument, false);
-
   Option<float>  controlptrange(string("--cprange"), 1.0,
 				string("Range (as % control point spacing) of data samples (default 1) "),
 				false,requires_argument,false);
@@ -208,7 +204,6 @@ namespace MESHREG {
     options.add(rescale_labels);
     options.add(maxLdist);
     options.add(maxdist);
-    options.add(pottsenergy);
     options.add(controlptrange);
     options.add(logtransform);
     options.add(intensitynormalize);
@@ -325,7 +320,7 @@ namespace MESHREG {
 	_cut=false;
    }
   _varnorm=variancenormalize.value(); _exclude=exclude.value(); _quartet=quartet.value();
-  _meshInterpolator=meshinterpolationmethod.value();  _dataInterpolator=datainterpolationmethod.value(); _weight=distweight.value(); _regoption2norm=anorm.value(); _potts=pottsenergy.value();
+  _meshInterpolator=meshinterpolationmethod.value();  _dataInterpolator=datainterpolationmethod.value(); _weight=distweight.value(); _regoption2norm=anorm.value();
   _threshold=cutthreshold.value(); _regscaling=expscaling.value(); _regexp=regulariserexp.value(); _maxLdist=maxLdist.value();
   _maxdist=maxdist.value(); _cprange=controlptrange.value();  _affinestepsize=affinestepsize.value(); _affinegradsampling=gradsampling.value(); _numthreads=threads.value();
   _rescale_labels=rescale_labels.value();
@@ -382,7 +377,6 @@ namespace MESHREG {
     PARAMETERS.insert(parameterPair("maxdistortion",_maxdist));
     PARAMETERS.insert(parameterPair("shearmodulus",_shearmod));
     PARAMETERS.insert(parameterPair("bulkmodulus",_bulkmod));
-    PARAMETERS.insert(parameterPair("pottsthreshold",_potts));
     PARAMETERS.insert(parameterPair("range",_cprange));
     PARAMETERS.insert(parameterPair("exponent",_regexp));
     PARAMETERS.insert(parameterPair("weight",_weight));

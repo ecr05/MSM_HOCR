@@ -112,7 +112,6 @@ namespace MESHREG {
     bool _set_group_lambda;
     bool _rescale_labels;
     float _k_exp;
-    float _potts;
     int _resolutionlevels;  /// default 1
     int _regmode; //regulariser option
     int _numthreads;
@@ -151,7 +150,6 @@ namespace MESHREG {
       _anat=false;
       _concattraining=false;
       _rescale_labels=false;
-      _potts=0.0;
       _surfformat=".surf";
       _dataformat=".func";
       _discreteOPT="FastPD";

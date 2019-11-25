@@ -407,7 +407,6 @@ namespace DISCRETEOPT{
 
     float _mu; // shear modulus
     float _kappa; // bulk modulus
-    float _pottsthreshold;
     float _rexp;
     float _sigma;
 
