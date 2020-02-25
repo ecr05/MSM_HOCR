@@ -15,7 +15,7 @@ Copy $FSLDIR/src/FastPDlib to $FSLDEVDIR/extras/src
 
 Then compile (make install) each repository directory in order (note you require c++11 support):
 
-newmesh
+(newmesh) - newmesh need only be complied for older versions of the repo which link to FSL5
 DiscreteOpt
 FastPDlib (from $FSLDEVDIR/extras/src)
 MSMRegLib
