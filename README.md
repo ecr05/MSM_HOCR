@@ -45,7 +45,7 @@ The MSM software series are cortical surface registration tools designed for fle
 
 Usage:
 
-See http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/msm for general usage
+See http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/msm and https://emmarobinson01.com/2020/04/05/advanced-features-of-msm-a-guide/ for general usage guidance
 
 Additional config parameters for MSM_HOCR
 
