@@ -1,3 +1,7 @@
+FOR USAGE GUIDE SEE http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/msm and https://emmarobinson01.com/2020/04/05/advanced-features-of-msm-a-guide/ 
+
+FOR INSTALLATION AND LICENCE:
+
 # MSM_HOCR
 Multimodal Surface Matching with Higher order Clique Reduction. Source code. Version 3.00 (Dec 2017)
 
@@ -43,16 +47,6 @@ Overview of the method.
 
 The MSM software series are cortical surface registration tools designed for flexible alignment of multiple different types of data on the cortical surface. MSM_HOCR represents an adaption to the 2014 Neuroimage version of the MSM software that allows improved regularisation through use of the Higher Order Clique Reduction libraries (HOCR and ELC) written by Hiroshi Ishikawa. These improvements have proved essential to achieve the alignments of areal features as described in the HCP's "A Multimodal parcellation of the Human Cerebral Cortex" Glasser, et al. Nature 2016. It is important to note this version MSM performs discrete optimisation implemented using fastPD not QPBO (as quoted in the upcoming MSM paper, and in the ELC READMetxt). The licence for QPBO is not compatible with FSL or this licence. FastPD and ELC are restricted licence libraries which we have gained permission to use as part of the MSM software (see below). For this reason, we are releasing only binaries at this time (for Ubuntu and Centos Linux, and MacOs). Source code will be released as part of the next FSL software library release. We supply an example config file for MSMsulc (MSMall parameters are on the way). Please contact if you have any problems
 
-Usage:
-
-See http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/msm and https://emmarobinson01.com/2020/04/05/advanced-features-of-msm-a-guide/ for general usage guidance
-
-Additional config parameters for MSM_HOCR
-
---regoption can take vales from 1 (original pairwise MSM) to 3. Options reflect different regulariser choices. 2-5 are higher order methods: 2) Angular Deviation Penalty (ADP); used by the HCP parcellation paper; 3) Strain penalty --triclique estimate a triclique data likelihood --shearmod shear modulus parameter for strain likelihood --bulkmod bulk modulus parameter for strain likelihood
-
-A new paper on the methods used in MSM_HOCR is under review. In the meantime please refer to Glocker et al ECCV 2010 (below) for more details on the Higher Order Clique Reduction and the motivations for the ADP and triclique data terms
-
 Contributors:
 
 Emma C. Robinson, Tim Coalson, Kara Garcia Matthew Webster Saad Jbabdi,
@@ -70,7 +64,5 @@ Robinson, E.C., Garcia, K., Glasser, M.F., Chen, Z., Coalson, T.S., Makropoulos,
 Ishikawa, Hiroshi. "Higher-order clique reduction without auxiliary variables." Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 2014.
 
 N. Komodakis and G. Tziritas "Approximate Labeling via Graph-Cuts Based on Linear Programming". IEEE Transactions on Pattern Analysis and Machine Intelligence, 2007.
-
-N. Komodakis, G. Tziritas and N. Paragios, "Performance vs Computational Efficiency for Optimizing Single and Dynamic MRFs: Setting the State of the Art with Primal Dual Strategies". Computer Vision and Image Understanding, 2008 (Special Issue on Discrete Optimization in Computer Vision).
 
 Glocker, Ben, et al. "Triangleflow: Optical flow with triangulation-based higher-order likelihoods." European Conference on Computer Vision. Springer Berlin Heidelberg, 2010.
