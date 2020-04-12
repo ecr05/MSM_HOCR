@@ -48,35 +48,35 @@ int main(int argc, char **argv){
   boost::shared_ptr<BFMatrix > datamat;
   bool labels=false;
   // BFMatrix *datamat;
-  
+
 
   if(argc < 3){
 
     Usage();
     exit(0);
   }
- 
-  
+
+
   in.load(argv[1]);
-  argc--; 
+  argc--;
   argv++;
   output=argv[1];
-  argc--; 
+  argc--;
   argv++;
 
   recentre(in);
-  
+
   getwm=0; thr=0.0; sigma=1.0;rad=100.0;
   _transform=false;_project=false;_outputlabel=false;
   _datamatrix=false; _save_rel=false;  _datamatsp=false;
   _exclude=false; resample.set_method("NN");
   barycentric=false; adap_barycentric=false;  _normalize=false;
-  
- 
+
+
   while (argc > 1) {
     ok = 0;
     cout << argv[1] << endl;
-   
+
     if((ok == 0) && (strcmp(argv[1], "-project") == 0)){
       argc--;
       argv++;
@@ -90,7 +90,7 @@ int main(int argc, char **argv){
       argc--;
       argv++;
       labels=true;
-   
+
       in.load(argv[1],false,false);
       Matrix M=in.get_pvalues();
       datamat = boost::shared_ptr<BFMatrix >(new FullBFMatrix (M));
@@ -139,7 +139,7 @@ int main(int argc, char **argv){
       argc--;
       argv++;
       ok = 1;
-    }   
+    }
     else if((ok == 0) && (strcmp(argv[1], "-excl") == 0)){
       argc--;
       argv++;
@@ -150,14 +150,14 @@ int main(int argc, char **argv){
       argc--;
       argv++;
       barycentric=true;
-      resample.set_method("BARYCENTRIC");  
+      resample.set_method("BARYCENTRIC");
       ok = 1;
     }
     else if((ok == 0) && (strcmp(argv[1], "-adap_bary") == 0)){
       argc--;
       argv++;
       adap_barycentric=true;
-      resample.set_method("ADAP_BARY");  
+      resample.set_method("ADAP_BARY");
       ok = 1;
     }
     else if((ok == 0) && (strcmp(argv[1], "-linear") == 0)){
@@ -177,21 +177,21 @@ int main(int argc, char **argv){
       argc--;
       argv++;
       ok = 1;
-    } 
+    }
     else{cout << " option doesn't exist " << endl; exit(1);}
 
-   
+
   }
 
 
- 
+
   boost::shared_ptr<NEWMESH::newmesh> EXCL_IN, EXCL_REF;
   Matrix DATAIN;
   if(_exclude){
     DATAIN=in.get_pvalues();
-    EXCL_IN= boost::shared_ptr<NEWMESH::newmesh>(new NEWMESH::newmesh(create_exclusion(in,DATAIN,0,0))); 
+    EXCL_IN= boost::shared_ptr<NEWMESH::newmesh>(new NEWMESH::newmesh(create_exclusion(in,DATAIN,0,0)));
   }
- 
+
   if(_normalize)  {
     Matrix DATAREF;
     boost::shared_ptr<BFMatrix > BFIN,BFREF;
@@ -204,55 +204,55 @@ int main(int argc, char **argv){
 
     if(_exclude){
       cout << SPH.nvertices() << " " << DATAREF.Ncols() << endl;
-      EXCL_REF= boost::shared_ptr<NEWMESH::newmesh>(new NEWMESH::newmesh(create_exclusion(HISTTARG,DATAREF,0,0))); 
-      
+      EXCL_REF= boost::shared_ptr<NEWMESH::newmesh>(new NEWMESH::newmesh(create_exclusion(HISTTARG,DATAREF,0,0)));
+
     }
-    
+
     BFREF=boost::shared_ptr<BFMatrix > (new FullBFMatrix (DATAREF)); //
     multivariate_histogram_normalization(*datamat,*BFREF,EXCL_IN,EXCL_REF,false);
     in.set_pvalues(datamat->AsMatrix());
 
   }
 
- 
+
 
   if(_project){
     for (int i=0;i<SPH.nvertices();i++)
-      SPH.set_pvalue(i,0); 
-    
+      SPH.set_pvalue(i,0);
+
     if(datamat.get()){
-      resample.resampledata(in,SPH,EXCL_IN,datamat,sigma); 
-     
-           
+      resample.resampledata(in,SPH,EXCL_IN,datamat,sigma);
+
+
     }
     else{
       resample.resample_scalar(in,SPH,sigma,EXCL_IN);
-      
+
     }
-  
+
 
     if(labels){
       SPH.set_pvalues(datamat->AsMatrix());
       SPH.save(output+".func");
     }else{
       datamat->Print(output);
-   
+
     }
-    
-   
+
+
 
     if(getwm){
-      
+
       for (int i = 0; i < SPH.nvertices(); i++)
 	wm.set_pvalue(i,SPH.get_pvalue(i));
-	
+
     }
 
- 
+
 
     if(getwm)
       wm.save(output +"targetmesh");
-  
+
   }
- 
+
 }
