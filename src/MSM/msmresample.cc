@@ -20,6 +20,7 @@ void Usage()
   cout << " -project - project final result back down onto surface (requires argument) " << endl;
   cout << " -metric - load labels file for input (inc. .func. and .shape, requires argument)" << endl;
   cout << " -datamat - multivariate data matrix (requires argument)" << endl;
+  cout << " -targetcoords - supply target coords as textfile" << endl;
   cout << " -barycentric use barycentric interpolation" << endl;
   cout << " -adap_bary use adaptive barycentric interpolation" << endl;
   cout << " -linear - linear interpolation kernel with kernel size X (requires argument)" << endl;
@@ -32,20 +33,19 @@ void Usage()
 
 int main(int argc, char **argv){
 
-  Matrix M;
   int ok,getwm;
   bool barycentric,adap_barycentric,_normalize;
   resampler resample;
   //MeshReg MR; // only used for read list -> move to resample?
   NEWMESH::newmesh in,SPH,REG,ICO,wm,HISTTARG;
   bool _outputlabel,_transform,_project,_exclude;
-  bool _save_rel,_datamatrix, _datamatsp;
+  bool _save_rel,_datamatrix, _datamatsp,_targetcoords_as_text;
   string output;
   double thr;
   double sigma,rad;
   boost::shared_ptr<RELATIONS>  _rel;
   string rel_out;
-  boost::shared_ptr<BFMatrix > datamat;
+  boost::shared_ptr<BFMatrix > datamat, _targetcoords;
   bool labels=false;
   // BFMatrix *datamat;
 
@@ -71,6 +71,7 @@ int main(int argc, char **argv){
   _datamatrix=false; _save_rel=false;  _datamatsp=false;
   _exclude=false; resample.set_method("NN");
   barycentric=false; adap_barycentric=false;  _normalize=false;
+  _targetcoords_as_text=false;
 
 
   while (argc > 1) {
@@ -110,6 +111,16 @@ int main(int argc, char **argv){
       argv++;
       ok = 1;
     }
+  else if((ok == 0) && (strcmp(argv[1], "-targetcoords") == 0)){
+        argc--;
+        argv++;
+        _targetcoords_as_text=true;
+        Matrix M=read_ascii_matrix(argv[1]);
+        _targetcoords = boost::shared_ptr<BFMatrix >(new FullBFMatrix (M));
+        argc--;
+        argv++;
+        ok = 1;
+      }
   else if((ok == 0) && (strcmp(argv[1], "-datamatsp") == 0)){
       argc--;
       argv++;
@@ -253,6 +264,9 @@ int main(int argc, char **argv){
     if(getwm)
       wm.save(output +"targetmesh");
 
+  }else if(_targetcoords_as_text){
+
+    //resample.resampledata_to_coords(in,_targetcoords,EXCL_IN,datamat,sigma);
   }
 
 }
