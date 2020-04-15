@@ -76,7 +76,7 @@ int main(int argc, char **argv){
 
   while (argc > 1) {
     ok = 0;
-    cout << argv[1] << endl;
+    //cout << argv[1] << endl;
 
     if((ok == 0) && (strcmp(argv[1], "-project") == 0)){
       argc--;
@@ -265,8 +265,9 @@ int main(int argc, char **argv){
       wm.save(output +"targetmesh");
 
   }else if(_targetcoords_as_text){
-
-    //resample.resampledata_to_coords(in,_targetcoords,EXCL_IN,datamat,sigma);
+    //cout << " resampledata_to_coords " << _targetcoords->Nrows() << " " << _targetcoords->Ncols() << endl;
+    resample.resampledata_to_coords(in,_targetcoords,datamat);
+    datamat->Print(output);
   }
 
 }
