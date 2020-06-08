@@ -1,5 +1,7 @@
 FOR USAGE GUIDE SEE http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/msm and https://emmarobinson01.com/2020/04/05/advanced-features-of-msm-a-guide/ 
 
+WANT AN MSM BINARY???? For most users it should be sufficient to download MSM binaries for Mac OS or Ubuntu/Centos Linux https://github.com/ecr05/MSM_HOCR/releases
+
 FOR INSTALLATION AND LICENCE:
 
 # MSM_HOCR
