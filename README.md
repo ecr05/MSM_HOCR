@@ -13,8 +13,6 @@ THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDI
 
 Files in this distribution:
 
-src/newmesh - folding containing surface mesh class, depending on FSL's gifti reader class
-
 src/DiscreteOpt - class for representing the surface mesh registration problem as energies for discrete optimisation
 
 src/MSMRegLib - the main registration class
