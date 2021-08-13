@@ -11,13 +11,12 @@ Then create $FSLDEVDIR and associated folders:
 mkdir -p  $FSLDEVDIR  $FSLDEVDIR/extras $FSLDEVDIR/extras/include $FSLDEVDIR/extras/src
 
 Copy/move the folder extras/ELC1.04/ELC from this repository to your $FSLDEVDIR as $FSLDEVDIR/extras/include/ELC
-Copy $FSLDIR/src/FastPDlib to $FSLDEVDIR/extras/src
 
 Then compile (make install) each repository directory in order (note you require c++11 support):
 
 (newmesh) - newmesh need only be complied for older versions of the repo which link to FSL5
 DiscreteOpt
-FastPDlib (from $FSLDEVDIR/extras/src)
+FastPDlib (found in $FSLDIR/src/FastPDlib)
 MSMRegLib
 MSM
 
