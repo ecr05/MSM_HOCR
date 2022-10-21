@@ -7,43 +7,38 @@
 /*  CCOPYRIGHT  */
 #include "newmat.h"
 #include "newmesh/meshfns.h"
-#include <time.h>       /* clock_t, clock, CLOCKS_PER_SEC */
-
-
+#include <time.h> /* clock_t, clock, CLOCKS_PER_SEC */
 
 using namespace NEWMAT;
 using namespace NEWMESH;
 
 void Usage()
-{ cout << " msm_makeicos <ico resolution> " << endl;
- 
+{
+    cout << " msm_makeicos <ico resolution> " << endl;
 }
 
+int main(int argc, char** argv)
+{
 
-int main(int argc, char **argv){
+    newmesh ico;
+    int res;
+    char filename[1000], out[1000];
 
+    if (argc < 2) {
 
-  newmesh ico;
-  int res;
-  char filename[1000],out[1000];
+        Usage();
+        exit(0);
+    }
 
-  if(argc < 2){
+    res = atoi(argv[1]);
+    argc--;
+    argv++;
 
-    Usage();
-    exit(0);
-  }
+    ico.make_mesh_from_icosa(res);
+    true_rescale(ico, RAD);
+    sprintf(out, " icosphere res: %d #vertices: %d ", res, ico.nvertices());
+    cout << out << endl;
 
- 
-  
-  res=atoi(argv[1]);
-  argc--; 
-  argv++;
-  
- 
-  ico.make_mesh_from_icosa(res); true_rescale(ico,RAD);
-  sprintf(out," icosphere res: %d #vertices: %d ", res, ico.nvertices());
-  cout << out << endl;
-
-  sprintf(filename,"ico-%d.surf.gii",res);
-  ico.save(filename);
+    sprintf(filename, "ico-%d.surf.gii", res);
+    ico.save(filename);
 }

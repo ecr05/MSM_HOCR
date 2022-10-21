@@ -7,80 +7,79 @@
 /*  CCOPYRIGHT  */
 #include "newmat.h"
 #include "newmesh/meshfns.h"
-#include <time.h>       /* clock_t, clock, CLOCKS_PER_SEC */
-
-
+#include <time.h> /* clock_t, clock, CLOCKS_PER_SEC */
 
 using namespace NEWMAT;
 using namespace NEWMESH;
 
 void Usage()
-{ cout << " msmresamplemesh <in_anat> <in_sphere> <ico resolution> <output base> -options " << endl;
-  cout << " -data X supply data for resampling " << endl;
-  cout << " -adap resample adaptively " << endl;
-
+{
+    cout << " msmresamplemesh <in_anat> <in_sphere> <ico resolution> <output base> -options " << endl;
+    cout << " -data X supply data for resampling " << endl;
+    cout << " -adap resample adaptively " << endl;
 }
 
+int main(int argc, char** argv)
+{
 
-int main(int argc, char **argv){
+    newmesh in_anat, in_sphere, ico;
+    newmesh ANAT_res;
+    string output;
+    double res;
+    char filename[1000];
+    resampler R;
+    R.set_method("ADAP_BARY");
+    int ok;
+    bool _resampledata = false;
+    bool _adap = false;
+    if (argc < 3) {
 
-  
-  newmesh in_anat,in_sphere,ico;
-  newmesh ANAT_res;
-  string output;
-  double res;
-  char filename[1000];
-  resampler R; R.set_method("ADAP_BARY");
-  int ok;
-  bool _resampledata=false;
-  bool _adap=false;
-  if(argc < 3){
-
-    Usage();
-    exit(0);
-  }
-
- 
-  in_anat.load(argv[1]);
-  argc--; 
-  argv++;
-  in_sphere.load(argv[1]);
-  argc--; 
-  argv++;
-  res=atoi(argv[1]);
-  argc--; 
-  argv++;
-  output=argv[1];
-  argc--; 
-  argv++;
-
-  while (argc > 1) {
-    ok = 0;
-    if((ok == 0) && (strcmp(argv[1], "-data") == 0)){
-      argc--;
-      argv++;    
-      _resampledata=true;
-      in_sphere.load(argv[1],false,false);
-      argc--;
-      argv++;
-      ok = 1;
+        Usage();
+        exit(0);
     }
-    else if((ok == 0) && (strcmp(argv[1], "-adap") == 0)){
-      argc--;
-      argv++;    
-      _adap=true;
-      ok = 1;
-    }else{cout << " option doesn't exist " << endl; exit(1);}
-  }
-  cout << " Make ico " << endl;
-  ico.make_mesh_from_icosa(res); true_rescale(ico,RAD); 
-  
- 
-  Matrix TRANSLATE=recentre(in_sphere);
-  true_rescale(in_sphere,RAD);
-  //recentre anat ///
-  Pt mean;
-  /* if(TRANSLATE.NormFrobenius() > EPSILON){
+
+    in_anat.load(argv[1]);
+    argc--;
+    argv++;
+    in_sphere.load(argv[1]);
+    argc--;
+    argv++;
+    res = atoi(argv[1]);
+    argc--;
+    argv++;
+    output = argv[1];
+    argc--;
+    argv++;
+
+    while (argc > 1) {
+        ok = 0;
+        if ((ok == 0) && (strcmp(argv[1], "-data") == 0)) {
+            argc--;
+            argv++;
+            _resampledata = true;
+            in_sphere.load(argv[1], false, false);
+            argc--;
+            argv++;
+            ok = 1;
+        } else if ((ok == 0) && (strcmp(argv[1], "-adap") == 0)) {
+            argc--;
+            argv++;
+            _adap = true;
+            ok = 1;
+        } else {
+            cout << " option doesn't exist " << endl;
+            exit(1);
+        }
+    }
+    cout << " Make ico " << endl;
+    ico.make_mesh_from_icosa(res);
+    true_rescale(ico, RAD);
+
+    Matrix TRANSLATE = recentre(in_sphere);
+    true_rescale(in_sphere, RAD);
+    //recentre anat ///
+    Pt mean;
+    /* if(TRANSLATE.NormFrobenius() > EPSILON){
   
  // ColumnVector P_in(4);
   
@@ -112,22 +111,21 @@ int main(int argc, char **argv){
   
   }
   */
-  ANAT_res=mesh_resample(in_anat,in_sphere,ico,_adap);
-  sprintf(filename,"%s-anat.surf",output.c_str());
-  mean*=0;
-  for (int i=0;i< ANAT_res.nvertices();i++)
-      mean+=ANAT_res.get_coord(i);
+    ANAT_res = mesh_resample(in_anat, in_sphere, ico, _adap);
+    sprintf(filename, "%s-anat.surf", output.c_str());
+    mean *= 0;
+    for (int i = 0; i < ANAT_res.nvertices(); i++)
+        mean += ANAT_res.get_coord(i);
 
-    mean/=ANAT_res.nvertices();
-    cout << "anat res  mean" << mean.X << " mean.Y " << mean.Y << " mean.Z " << mean.Z <<  endl;
-  ANAT_res.save(filename);
-  sprintf(filename,"%s-regular_sphere.surf",output.c_str());
-  ico.save(filename);
+    mean /= ANAT_res.nvertices();
+    cout << "anat res  mean" << mean.X << " mean.Y " << mean.Y << " mean.Z " << mean.Z << endl;
+    ANAT_res.save(filename);
+    sprintf(filename, "%s-regular_sphere.surf", output.c_str());
+    ico.save(filename);
 
-  if(_resampledata){
-    R.resample_scalar(in_sphere,ico,1);
-    sprintf(filename,"%s-resampled_data.func",output.c_str());
-    in_sphere.save(filename);
-
-  }
+    if (_resampledata) {
+        R.resample_scalar(in_sphere, ico, 1);
+        sprintf(filename, "%s-resampled_data.func", output.c_str());
+        in_sphere.save(filename);
+    }
 }
